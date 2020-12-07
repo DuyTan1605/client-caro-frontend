@@ -53,7 +53,7 @@ export const login = (email, password) => (dispatch) => {
         payload: { user: data },
       });
 
-      return Promise.resolve();
+      return Promise.resolve(data);
     },
     (error) => {
       const message =
@@ -72,7 +72,7 @@ export const login = (email, password) => (dispatch) => {
         payload: message,
       });
 
-      return Promise.reject();
+      return Promise.reject(error);
     }
   );
 };

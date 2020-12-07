@@ -1,14 +1,13 @@
 
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { makeStyles,withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
+
+import AccountCircle from '@material-ui/icons/AccountCircle';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -44,26 +43,12 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-export default function CheckboxListSecondary() {
+export default function CheckboxListSecondary(props) {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([1]);
-
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
-
+  
   return (
     <List dense className={classes.root}>
-      {[0, 1, 2, 3].map((value) => {
+      {props.listUsers.map((user,value) => {
         const labelId = `checkbox-list-secondary-label-${value}`;
         return (
           <ListItem key={value} button>
@@ -75,9 +60,9 @@ export default function CheckboxListSecondary() {
               }}
               variant="dot"
             >
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        {user.avatar?<Avatar alt={user.name} src={user.avatar} />:<AccountCircle/>}
          </StyledBadge>
-            <ListItemText style={{marginLeft:'1em'}} id={labelId} primary={`Line item ${value + 1}`} />
+            <ListItemText style={{marginLeft:'1em'}} id={labelId} primary={user.name} />
           </ListItem>
         );
       })}

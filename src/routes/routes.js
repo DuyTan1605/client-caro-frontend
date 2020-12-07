@@ -1,6 +1,6 @@
 import Login from "../components/login/login"
 import Register from "../components/register/register"
-import Home from "../components/home/home"
+import Home from "../components/home/index"
 import { createBrowserHistory } from "history";
 import{
     BrowserRouter as Router,

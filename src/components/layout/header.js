@@ -18,6 +18,7 @@ import {
 
 import {logout} from "../../actions/auth.actions";
 import { useDispatch,useSelector} from "react-redux";
+import {socket} from "../../helpers/socket"
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -116,7 +117,7 @@ export default function PrimarySearchAppBar(props) {
 
   const logOut = () => {
     dispatch(logout());
-   
+    socket.emit("logout",{iduser:currentUser.iduser});
   };
   const dispatch = useDispatch();
   const menuId = 'primary-search-account-menu';

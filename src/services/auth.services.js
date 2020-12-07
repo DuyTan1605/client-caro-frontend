@@ -2,7 +2,10 @@ import axios from "axios"
 //import authHeader from "./auth-header.services"
 import api from "../helpers/api"
 
+
 const API_URL = api.apiUrl + "account/";
+
+
 
 const register = (username, email, password) => {
     const dateCreated=new Date();
@@ -23,7 +26,6 @@ const register = (username, email, password) => {
 };
 
 const login = (email, password) => {
-  console.log(email,password);
   return axios
     .post(API_URL + "login", {
       email,

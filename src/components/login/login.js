@@ -21,6 +21,8 @@ import { CLEAR_MESSAGE } from '../../actions/type';
 import ReCAPTCHA from "react-google-recaptcha";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {loginWithSocial} from "../../actions/auth.actions"
+import {socket} from "../../helpers/socket";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -64,6 +66,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
+
 export default function Login(props) {
   const classes = useStyles();
   const [email, setemail] = useState("");
@@ -98,8 +102,10 @@ export default function Login(props) {
     //e.preventDefault();
     setloading(true);
     dispatch(login(email, password))
-    .then(() => {
-      props.history.push("/home");
+    .then((data) => {
+      console.log(data);
+    props.history.push("/home");
+     
       // window.location.reload();
     })
     .catch(() => {
