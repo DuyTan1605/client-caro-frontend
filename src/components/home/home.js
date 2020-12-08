@@ -30,18 +30,18 @@ export default function Home() {
 
   socket.on("listonline",data=>{
     console.log("List users: ",data);
-    setlistUsers(data.filter(user=>user.iduser!=currentUser.iduser));
+    setlistUsers(data.filter(user=>user.id!=currentUser.id));
   })
 
   useEffect(() => {
-    socket.emit("login",{name:currentUser.name,iduser:currentUser.iduser,avatar:currentUser.avatar});
+    socket.emit("login",{name:currentUser.name,id:currentUser.id,avatar:currentUser.avatar});
   }, []);
 
     return (
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={10} sm={10}>
-            <Paper className={classes.paper}>xs=6</Paper>
+            <Paper className={classes.paper}>List Board</Paper>
           </Grid>
           <Grid item xs={12} md={2} sm={2} style={{float:'right'}}>
             <h4>Users</h4>

@@ -117,7 +117,7 @@ export default function PrimarySearchAppBar(props) {
 
   const logOut = () => {
     dispatch(logout());
-    socket.emit("logout",{iduser:currentUser.iduser});
+    socket.emit("logout",{id:currentUser.id});
   };
   const dispatch = useDispatch();
   const menuId = 'primary-search-account-menu';

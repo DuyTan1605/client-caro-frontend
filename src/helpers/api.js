@@ -1,1 +1,1 @@
-exports.apiUrl="http://localhost:3000/"
+exports.apiUrl="https://client-caro-api.herokuapp.com/"
