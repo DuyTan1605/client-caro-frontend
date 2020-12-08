@@ -54,7 +54,7 @@ const loginWithSocial = (data) => {
   if(data.type=="google")
   {
     return axios
-      .post(API_URL + "loginWithSocial", {created_at:created_at,type:data.type},{headers:{ "x-access-token": data.tokenId }})
+      .post(API_URL + "loginWithSocial", {created_at:created_at,type:data.type,tokenId:data.tokenId},{headers:{ "x-access-token": data.tokenId }})
       .then((response) => {
         console.log(response.data);
         if (response.data.accessToken) {
@@ -66,7 +66,7 @@ const loginWithSocial = (data) => {
   }
   else{
     return axios
-    .post(API_URL + "loginWithSocial", {created_at:created_at,type:data.type,userId:data.userId},{headers:{ "x-access-token": data.tokenId }})
+    .post(API_URL + "loginWithSocial", {created_at:created_at,type:data.type,userId:data.userId,tokenId:data.tokenId},{headers:{ "x-access-token": data.tokenId }})
     .then((response) => {
       console.log(response.data);
       if (response.data.accessToken) {
