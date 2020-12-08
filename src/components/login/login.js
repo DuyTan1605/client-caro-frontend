@@ -83,7 +83,7 @@ export default function Login(props) {
     
   }
 
-  const responseGoogle = (response) => {
+  const responseGoogle = (response) => {  
       dispatch(loginWithSocial({tokenId:response.tokenId,type:"google"}))
       .then(()=>{
         props.history.push("/home");
@@ -180,7 +180,7 @@ export default function Login(props) {
             </Button>
 
             <GoogleLogin
-            clientId="94702749463-04p7t8q8h0s3gnrjjdn3j4dtf4n1dqf3.apps.googleusercontent.com"
+            clientId="1035691293837-1e85bt80b945seuqio2cbk5i19m5759k.apps.googleusercontent.com"
             render={renderProps => (
               <Button onClick={renderProps.onClick} disabled={renderProps.disabled}
               fullWidth
