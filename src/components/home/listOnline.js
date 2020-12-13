@@ -6,8 +6,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
-
 import AccountCircle from '@material-ui/icons/AccountCircle';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -45,7 +45,7 @@ const StyledBadge = withStyles((theme) => ({
 
 export default function CheckboxListSecondary(props) {
   const classes = useStyles();
-  
+
   return (
     <List dense className={classes.root}>
       {props.listUsers.map((user,value) => {

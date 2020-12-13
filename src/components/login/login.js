@@ -18,10 +18,9 @@ import {useDispatch,useSelector} from "react-redux"
 import {login} from "../../actions/auth.actions";
 import Alert from '@material-ui/lab/Alert';
 import { CLEAR_MESSAGE } from '../../actions/type';
-import ReCAPTCHA from "react-google-recaptcha";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {loginWithSocial} from "../../actions/auth.actions"
-import {socket} from "../../helpers/socket";
+import {socket} from "../../helpers/socket"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,8 +103,8 @@ export default function Login(props) {
     dispatch(login(email, password))
     .then((data) => {
       console.log(data);
+    socket.emit("login",{name:data.name,id:data.id,avatar:data.avatar});
     props.history.push("/home");
-     
       // window.location.reload();
     })
     .catch(() => {
@@ -180,7 +179,7 @@ export default function Login(props) {
             </Button>
 
             <GoogleLogin
-            clientId="1035691293837-1e85bt80b945seuqio2cbk5i19m5759k.apps.googleusercontent.com"
+            clientId="94702749463-04p7t8q8h0s3gnrjjdn3j4dtf4n1dqf3.apps.googleusercontent.com"
             render={renderProps => (
               <Button onClick={renderProps.onClick} disabled={renderProps.disabled}
               fullWidth
@@ -191,8 +190,6 @@ export default function Login(props) {
             )}
             buttonText="Login"
             onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
           />
         
         <FacebookLogin

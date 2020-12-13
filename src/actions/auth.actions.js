@@ -8,6 +8,7 @@ import {
 } from "./type"
 import AuthService from "../services/auth.services"
 
+
 export const register = (username, email, password) => (dispatch) => {
   return AuthService.register(username, email, password).then(
     (data) => {
@@ -52,7 +53,6 @@ export const login = (email, password) => (dispatch) => {
         type: LOGIN_SUCCESS,
         payload: { user: data },
       });
-
       return Promise.resolve(data);
     },
     (error) => {

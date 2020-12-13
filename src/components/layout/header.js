@@ -19,6 +19,7 @@ import {
 import {logout} from "../../actions/auth.actions";
 import { useDispatch,useSelector} from "react-redux";
 import {socket} from "../../helpers/socket"
+import AnonymousHeader from "../layout/anonymousHeader"
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -88,7 +89,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function PrimarySearchAppBar(props) {
+export default function PrimarySearchAppBar(props) {  
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -97,6 +99,13 @@ export default function PrimarySearchAppBar(props) {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const {user:currentUser}=useSelector(state=>state.auth);
+
+  if (!currentUser) {
+    return (
+      <AnonymousHeader/>
+    )
+   }
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
