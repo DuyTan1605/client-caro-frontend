@@ -1,0 +1,16 @@
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAIL = "REGISTER_FAIL";
+
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+
+export const SET_MESSAGE = "SET_MESSAGE";
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+
+export const CREATE_BOARD_SUCCESS = "CREATE_BOARD_SUCCESS";
+export const CREATE_BOARD_FAIL = "CREATE_BOARD_FAIL";
+
+export const LOAD_BOARD_SUCCESS = "LOAD_BOARD_SUCCESS";
+export const LOAD_BOARD_FAIL = "LOAD_BOARD_FAIL";
+
+export const LOGOUT = "LOGOUT";
