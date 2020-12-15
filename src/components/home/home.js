@@ -33,6 +33,10 @@ export default function Home() {
     if(currentUser)
     {
       socket.emit("login",{name:currentUser.name,id:currentUser.id,avatar:currentUser.avatar});
+      if(sessionStorage.getItem("anonymousUser"))
+      {
+        socket.emit("logout",{id:JSON.parse(sessionStorage.getItem("anonymousUser")).id});
+      }
     }
   }, []);
 

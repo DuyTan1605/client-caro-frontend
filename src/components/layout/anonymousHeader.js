@@ -34,11 +34,11 @@ export default function AnonymousHeder(props)
       {
         let anoyId=shortId.generate();
         sessionStorage.setItem("anonymousUser",JSON.stringify({id:anoyId,name:anoyId,avatar:null}))
-        socket.emit("newAnonymousUser",{id:anoyId,name:anoyId,avatar:null})
+        socket.emit("login",{id:anoyId,name:anoyId,avatar:null})
       }
       else{
-        console.log("in")
-        socket.emit("listUser");
+        const data = JSON.parse(sessionStorage.getItem("anonymousUser"));
+        socket.emit("login",{id:data.id,name:data.name,avatar:data.avatar})
       }
     }, []);
     return (
@@ -51,7 +51,7 @@ export default function AnonymousHeder(props)
             Caro
           </Typography></Link>
           <div className={classes.grow} />
-          <Button color="inherit">Login</Button>
+          <Link to={"/login"} style={{textDecoration:'none',color:'white'}}>Login</Link>
         </Toolbar>
       </AppBar>
     )

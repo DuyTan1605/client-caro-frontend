@@ -7,6 +7,9 @@ import ListUser from "./users"
 import {socket} from "../../helpers/socket";
 import {useParams} from "react-router-dom"
 import { createBrowserHistory } from "history";
+import DefaultLayout from "../layout/defaultLayout";
+import Game from "./game"
+
 const history = createBrowserHistory();
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,18 +42,20 @@ export default function FullWidthGrid() {
 
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>   
-        <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>CARO</Paper>
+    <DefaultLayout>
+      <div className={classes.root}>
+        <Grid container spacing={3}>   
+          <Grid item xs={12} sm={6}>
+            <Game/>
+          </Grid>
+          <Grid item xs={12} sm={3}>
+              <ListUser history={history}/>
+          </Grid>
+          <Grid item xs={12} sm={3}>
+              <Chat/>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={3}>
-            <ListUser history={history}/>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-            <Chat/>
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    </DefaultLayout>
   );
 }
