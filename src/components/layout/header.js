@@ -20,6 +20,7 @@ import {logout} from "../../actions/auth.actions";
 import { useDispatch,useSelector} from "react-redux";
 import {socket} from "../../helpers/socket"
 import AnonymousHeader from "../layout/anonymousHeader"
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -142,6 +143,7 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMenuClose}
     >
       <Link to={"/profile"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><AccountCircleIcon/> Your Profile</MenuItem></Link>
+      <Link to={"/history"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><AssignmentIcon/> History</MenuItem></Link>
       {/* <MenuItem onClick={handleMenuClose}>Funretro Feedback</MenuItem> */}
       <Link to={"/login"} style={{color:"black",textDecoration:"none"}} onClick={logOut}><MenuItem onClick={handleMenuClose}><ExitToAppIcon/> Logout</MenuItem></Link>
     </Menu>
@@ -160,6 +162,7 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMobileMenuClose}
     >
        <Link to={"/profile"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><AccountCircleIcon/> Your Profile</MenuItem></Link>
+       <Link to={"/history"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><AssignmentIcon/> History</MenuItem></Link>
       {/* <MenuItem onClick={handleMenuClose}>Funretro Feedback</MenuItem> */}
       <Button style={{color:"black",textDecoration:"none",textTransform:"none"}} onClick={logOut}><MenuItem onClick={handleMenuClose}><ExitToAppIcon/> Logout</MenuItem></Button>
     </Menu>

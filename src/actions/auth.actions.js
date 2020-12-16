@@ -4,10 +4,47 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     SET_MESSAGE,
-    LOGOUT
+    LOGOUT,
+    LOAD_HISTORY_SUCCESS
 } from "./type"
 import AuthService from "../services/auth.services"
+import HistoryService from "../services/history.services"
 
+export const loadAllHistory=(id)=>(dispatch)=>{
+  return HistoryService.loadAllHistory(id).then(
+      (data)=>{
+        dispatch({
+          type:LOAD_HISTORY_SUCCESS,
+          payload:{histories:data}
+        });
+        dispatch({
+          type: SET_MESSAGE,
+          payload: data.message,
+        });
+  
+        return Promise.resolve();
+      },
+      (error)=>{
+        const message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+    
+          dispatch({
+            type: LOAD_HISTORY_FAIL,
+          });
+    
+          dispatch({
+            type: SET_MESSAGE,
+            payload: message,
+          });
+    
+          return Promise.reject();
+      }
+    )
+}
 
 export const register = (username, email, password) => (dispatch) => {
   return AuthService.register(username, email, password).then(

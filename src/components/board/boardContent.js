@@ -27,10 +27,12 @@ export default function FullWidthGrid() {
   
   let {id:room}=useParams();
   let username;
+  let idUser;
   if(localStorage.getItem("user"))
   {
       
      username = JSON.parse(localStorage.getItem("user")).name;
+     idUser = JSON.parse(localStorage.getItem("user")).id;
   }
   else{
     if(!sessionStorage.getItem("anonymousUser"))
@@ -44,11 +46,12 @@ export default function FullWidthGrid() {
         socket.emit("login",{id:data.id,name:data.name,avatar:data.avatar})
       }
 
-      username = JSON.parse(sessionStorage.getItem("anonymousUser")).name
+      username = JSON.parse(sessionStorage.getItem("anonymousUser")).name;
+      idUser = JSON.parse(sessionStorage.getItem("anonymousUser")).id;
   }
   
   useEffect(() => {
-    socket.emit('joinRoom', { username, room });
+    socket.emit('joinRoom', { username, room,idUser });
   }, []);
 
   

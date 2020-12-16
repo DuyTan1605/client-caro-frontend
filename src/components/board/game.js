@@ -122,7 +122,7 @@ function Game() {
   let status = '';
   let cssWinner = '';
   if (resWinner.winner) {
-    console.log(resWinner.winner);
+    console.log("Reswinner: ",resWinner.winner);
     status = "Winner " + resWinner.winner;
     cssWinner = resWinner.line;
     if(resWinner.winner == currentRole)
@@ -143,12 +143,12 @@ function Game() {
     const col = latestMoveSquare % columnSetup + 1;
     const row = Math.floor(latestMoveSquare / columnSetup) + 1;
     const desc = (move) ?
-      'Go to position #' + move + "(col=" + col + ";row=" + row + ")" :
-      'Go to start';
+      '#' + move + "(col=" + col + ";row=" + row + ")" :
+      'Start';
     const classBold = (move == stepNumber ? 'class-bold' : "");
     return (
-      <li key={move} className={classBold}>
-        <button className={classBold} onClick={() => jumpTo(move)}>{desc}</button>
+      <li key={move} className={classBold} style={{margin:'5px'}}>
+        <button className={classBold}>{desc}</button>
       </li>
     )
   });
