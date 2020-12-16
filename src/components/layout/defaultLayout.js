@@ -5,7 +5,7 @@ import Footer from "./footer"
 export default function defaultLayout(props)
 {
     return (
-        <div style={{"overflow":"hidden"}}>
+        <div style={{"overflow":"hidden",margin:'0'}}>
             <Header/>
             <div style={{minHeight:'100vh'}}>
             {props.children}

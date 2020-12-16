@@ -53,6 +53,7 @@ export default function CenteredGrid() {
       .then(()=>{
           setloading(false);
           const boards= JSON.parse(localStorage.getItem("boards")).boards;
+          console.log(boards);
           if(currentUser)
           {
               setmyBoard(boards.filter(board=>board.created_by==currentUser.id))

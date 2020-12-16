@@ -1,13 +1,10 @@
 import React,{useState} from 'react';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import { socket } from '../../helpers/socket';
-
+import SendIcon from '@material-ui/icons/Send';
+import { InputAdornment } from "@material-ui/core";
 export default function (props)
 {
     const [message, setmessage] = useState("");
@@ -32,17 +29,20 @@ export default function (props)
               id="message"
               name="message"  
               value={message}
-<<<<<<< HEAD
-=======
-              validators={['required']}
->>>>>>> 8d6cbacbe8a20846000a1b4b8e1d6f6201e9d45e
               errorMessages={["Message is required"]}
               autoFocus
               onChange={(e)=>setmessage(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                     <Button type="submit" onClick={sendMsg}><SendIcon /></Button> 
+                  </InputAdornment>
+                )
+              }}
             />
-          <Button type="submit" onClick={sendMsg} color="primary">
+          {/* <Button type="submit" onClick={sendMsg} color="primary">
             Send
-          </Button>
+          </Button> */}
         </ValidatorForm>
     )
 }

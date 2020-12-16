@@ -36,9 +36,10 @@ export default function MediaCard(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-           {props.board.name}
+           Name: {props.board.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
+            Created by: {props.board.user.name}
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -9,7 +9,7 @@ import {useParams} from "react-router-dom"
 import { createBrowserHistory } from "history";
 import DefaultLayout from "../layout/defaultLayout";
 import Game from "./game"
-
+import shortId from "shortid"
 const history = createBrowserHistory();
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FullWidthGrid() {
   const classes = useStyles();
-
+  
   let {id:room}=useParams();
   let username;
   if(localStorage.getItem("user"))
@@ -33,6 +33,17 @@ export default function FullWidthGrid() {
      username = JSON.parse(localStorage.getItem("user")).name;
   }
   else{
+    if(!sessionStorage.getItem("anonymousUser"))
+      {
+        let anoyId=shortId.generate();
+        sessionStorage.setItem("anonymousUser",JSON.stringify({id:anoyId,name:anoyId,avatar:null}))
+        socket.emit("login",{id:anoyId,name:anoyId,avatar:null})
+      }
+      else{
+        const data = JSON.parse(sessionStorage.getItem("anonymousUser"));
+        socket.emit("login",{id:data.id,name:data.name,avatar:data.avatar})
+      }
+
       username = JSON.parse(sessionStorage.getItem("anonymousUser")).name
   }
   
@@ -40,13 +51,14 @@ export default function FullWidthGrid() {
     socket.emit('joinRoom', { username, room });
   }, []);
 
+  
 
   return (
     <DefaultLayout>
       <div className={classes.root}>
         <Grid container spacing={3}>   
           <Grid item xs={12} sm={6}>
-            <Game/>
+           <Game/>
           </Grid>
           <Grid item xs={12} sm={3}>
               <ListUser history={history}/>

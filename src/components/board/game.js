@@ -5,6 +5,7 @@ import { socket } from '../../helpers/socket';
 import {useParams} from "react-router-dom"
 
 function Game() {
+  const [gameStatus,setGameStatus]=useState(false);
   const {id:room}=useParams();
   const [rowSetup, setrow] = useState(10);
   const [columnSetup, setcolumn] = useState(10);
@@ -18,6 +19,11 @@ function Game() {
   const [ascendingOrder, setascendingOrder] = useState(true);
   const [currentRole,setcurrentRole]=useState("Guest");
   
+  socket.on("gameStart",data=>{
+    console.log(data);
+    setGameStatus(data);
+  })
+
   socket.on("player",data=>{
     console.log(data);
     setcurrentRole(data.player);
@@ -35,7 +41,7 @@ function Game() {
   })
 
   const handleClick = (i) => {
-    if(currentRole==nowStep)
+    if(currentRole==nowStep && nowStep!="Guest")
     {
       const newHistory = history.slice(0, stepNumber + 1);
       const current = newHistory[newHistory.length - 1];
@@ -116,15 +122,20 @@ function Game() {
   let status = '';
   let cssWinner = '';
   if (resWinner.winner) {
+    console.log(resWinner.winner);
     status = "Winner " + resWinner.winner;
     cssWinner = resWinner.line;
+    if(resWinner.winner == currentRole)
+    {
+      socket.emit("history",{winner:resWinner.winner,room:room,data:history});
+    }
   }
   else {
     if (resWinner.isDraw) {
       status = "Draw";
     }
     else {
-      status = 'Next player ' + (currentRole == "0" ? 'X' : 'O')
+      status = 'Now Turn: ' + (nowStep)
     }
   }
   const moves = newHistory.map((step, move) => {
@@ -150,11 +161,13 @@ function Game() {
 
   return (
     <>
+    {!gameStatus?<h1>WAITING YOUR OPPONENT...</h1>:
+    (
       <div className="game">
        
         <div className="game-board">
         <h2>Your role: {currentRole}</h2>
-        <h2>Next step: {nowStep}</h2>
+        {/* <h2>Next step: {nowStep}</h2> */}
           <Board
             onClick={(i) => handleClick(i)}
             squares={current.squares}
@@ -164,35 +177,13 @@ function Game() {
           />
         </div>
         <div className="game-info">
-          <div style={{ margin: '5px' }}>{status}</div>
+          <h3 style={{ margin: '5px' }}>{status}</h3>
           <ol>{moves}</ol>
         </div>
 
       </div>
-      {/* <div>
-        <div style={{ marginTop: '20px' }}>
-          <Button type="primary" danger onClick={() => changeOrder()}>
-            {ascendingOrder ? (<>Ascending <ArrowUpOutlined /></>) :
-              <>Descending <ArrowDownOutlined /></>}
-          </Button>
-        </div>
-        <div style={{ marginTop: '20px' }}>
-          <Button type="primary" onClick={() => restartGame()}>
-            Restart
-            <UndoOutlined />
-          </Button>
-        </div>
-        <div style={{ marginTop: '20px' }}>
-          <span>Select row: </span>
-          <Size size={rowSetup} handleChangeSize={(value) => handleChangeSize(value, 'row')} />
-        </div>
-
-        <div style={{ marginTop: '20px' }}>
-          <span>Select column: </span>
-          <Size size={columnSetup} handleChangeSize={(value) => handleChangeSize(value, 'column')} />
-        </div>
-
-      </div> */}
+      
+    )}
     </>
 
   )

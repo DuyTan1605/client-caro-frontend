@@ -9,6 +9,8 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import Avatar from '@material-ui/core/Avatar';
 import {socket} from "../../helpers/socket";
 import {Link} from "react-router-dom"
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import PeopleIcon from '@material-ui/icons/People';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +46,7 @@ export default function SimpleList(props) {
       <List component="nav" aria-label="main mailbox folders">
         <ListItem>
           <ListItemIcon>
-            <InboxIcon />
+            <PeopleIcon />
           </ListItemIcon>
           <ListItemText primary="ROOM'S USERS" />
         </ListItem>
@@ -64,10 +66,10 @@ export default function SimpleList(props) {
           })
         }
       </List>
-      <Link to={"/home"} onClick={leaveRoom}>
+      <Link to={"/home"} style={{textDecoration:'none'}} onClick={leaveRoom}>
       <ListItem>
           <ListItemIcon>
-            <InboxIcon />
+            <MeetingRoomIcon/>
           </ListItemIcon>
           <ListItemText primary="LEAVE ROOM" />
         </ListItem>

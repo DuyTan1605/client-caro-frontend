@@ -9,6 +9,7 @@ import{
     Route,
   } from "react-router-dom";
 import Notfound from "../components/notfound/notfound"
+import HistoryGame from "../components/history/history"
 
 const routes=[
     {
@@ -26,6 +27,10 @@ const routes=[
     {
         path: ['/board/:id'],
         component: Board
+    },
+    {
+        path: ['/history'],
+        component: HistoryGame
     }
 ]
 

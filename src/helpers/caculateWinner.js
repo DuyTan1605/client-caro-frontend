@@ -33,7 +33,7 @@ function calculateWinner(squares, i, j, row, column) {
           }
         }
       }
-      if (d.length > 4) {
+      if (d.length >2) {
         return {
           winner: b[i][j],
           line: d,
@@ -60,7 +60,7 @@ function calculateWinner(squares, i, j, row, column) {
           }
         }
       }
-      if (d.length > 4) {
+      if (d.length >2) {
         return {
           winner: b[i][j],
           line: d,
@@ -89,7 +89,7 @@ function calculateWinner(squares, i, j, row, column) {
         }
       }
   
-      if (d.length > 4) {
+      if (d.length >2) {
         return {
           winner: b[i][j],
           line: d,
@@ -117,7 +117,7 @@ function calculateWinner(squares, i, j, row, column) {
           }
         }
       }
-      if (d.length > 4) {
+      if (d.length >2) {
         return {
           winner: b[i][j],
           line: d,
