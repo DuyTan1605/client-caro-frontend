@@ -6,7 +6,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import {addNewBoard} from "../../actions/board.actions"
 import {useDispatch} from "react-redux"
 
 import {CLEAR_MESSAGE} from "../../actions/type"
@@ -20,24 +19,8 @@ export default function FormDialog(props) {
 
   const newBoard=(e)=>{
     e.preventDefault();
-    props.handleClose();
+    props.handleSubmit(boardName);
     setboardName("");
-    dispatch(addNewBoard(boardName))
-    .then(
-        setTimeout(()=>{
-            dispatch({
-                type: CLEAR_MESSAGE,
-            })
-        },2000)
-    )
-    .catch(
-        setTimeout(()=>{
-            dispatch({
-                type: CLEAR_MESSAGE,
-            })
-        },2000)
-    )
-    
   }
 
   return (

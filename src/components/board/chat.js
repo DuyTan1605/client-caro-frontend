@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import {
     useParams
   } from "react-router-dom";
-import { socket } from "../../helpers/socket";
+//import { socket } from "../../helpers/socket";
 import ChatContent from "./chatContent"
 import Message from "./sendMsgInput"
 

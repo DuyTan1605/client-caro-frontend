@@ -20,8 +20,8 @@ import Alert from '@material-ui/lab/Alert';
 import { CLEAR_MESSAGE } from '../../actions/type';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {loginWithSocial} from "../../actions/auth.actions"
-import {socket} from "../../helpers/socket"
-
+//import {socket} from "../../helpers/socket"
+import config from "../../../src/config"
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -72,7 +72,8 @@ export default function Login(props) {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [loading, setloading] = useState(false);
-  const {message} =  useSelector(state=>state.message);
+  const {message,actions} = props;
+ 
   const [recaptchaChecked, setrecaptchaChecked] = useState(false);
 
   const dispatch = useDispatch();
@@ -82,39 +83,31 @@ export default function Login(props) {
     
   }
 
+  const address = window.location.href;
+  if (address.indexOf('?token=') !== -1) {
+      var token = address.substr(address.indexOf('?token=') + '?token='.length);
+      if (token.indexOf('#caro_client') !== -1) {
+          token = token.substr(0, token.indexOf('#caro_client'));
+      }
+      localStorage.setItem('token', token);
+      window.location.href = '/home';
+  }
+
   const responseGoogle = (response) => {  
-      dispatch(loginWithSocial({tokenId:response.tokenId,type:"google"}))
-      .then(()=>{
-        props.history.push("/home");
-      })
+    console.log(response);
+    window.location.href= config['server-domain'] + 'users/login/google/'
   }
 
   const responseFacebook = (response) => {
     console.log(response);
-    dispatch(loginWithSocial({tokenId:response.accessToken,type:"facebook",userId:response.userID}))
-      .then(()=>{
-        props.history.push("/home");
-      })
+    window.location.href= config['server-domain'] + 'users/login/facebook/'
   }
 
   const loginFunction=(e)=>{
     //e.preventDefault();
-    setloading(true);
-    dispatch(login(email, password))
-    .then((data) => {
-      console.log(data);
-    socket.emit("login",{name:data.name,id:data.id,avatar:data.avatar});
-    props.history.push("/home");
-      // window.location.reload();
-    })
-    .catch(() => {
-      setloading(false);
-      setTimeout(()=>{
-        dispatch({
-          type:CLEAR_MESSAGE
-        })
-      },5000)
-    });
+    //setloading(true);
+    actions.fetchLogin(email,password);
+
   }
 
   return (
@@ -210,7 +203,7 @@ export default function Login(props) {
 
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

@@ -5,7 +5,7 @@ import {
     LOAD_BOARD_FAIL,
     SET_MESSAGE
 } from "./type"
-import {socket} from "../helpers/socket";
+// import {socket} from "../helpers/socket";
 
 import BoardService from "../services/board.services"
 

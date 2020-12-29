@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,8 +18,7 @@ import {
 
 import {logout} from "../../actions/auth.actions";
 import { useDispatch,useSelector} from "react-redux";
-import {socket} from "../../helpers/socket"
-import AnonymousHeader from "../layout/anonymousHeader"
+//import {socket} from "../../helpers/socket"
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -98,13 +97,7 @@ export default function PrimarySearchAppBar(props) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const {user:currentUser}=useSelector(state=>state.auth);
-
-  if (!currentUser) {
-    return (
-      <AnonymousHeader/>
-    )
-   }
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
 
   const handleProfileMenuOpen = (event) => {
@@ -125,8 +118,10 @@ export default function PrimarySearchAppBar(props) {
   };
 
   const logOut = () => {
-    dispatch(logout());
-    socket.emit("logout",{id:currentUser.id});
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    props.refresh();
+    window.location.href = '/login';
   };
   const dispatch = useDispatch();
   const menuId = 'primary-search-account-menu';

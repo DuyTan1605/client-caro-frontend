@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/Inbox';
 import Avatar from '@material-ui/core/Avatar';
-import {socket} from "../../helpers/socket";
+//import {socket} from "../../helpers/socket";
 import {Link} from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({

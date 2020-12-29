@@ -32,13 +32,14 @@ export default function MediaCard(props) {
         <CardMedia
           className={classes.media}
           image={BoardImage}
-          title="Contemplative Reptile"
+          title={props.board.name}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-           {props.board.name}
+          <Typography gutterBottom variant="h6" component="h4">
+           Room: {props.board.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
+            {/* Created by : {props.board.user.name} */}
           </Typography>
         </CardContent>
       </CardActionArea>
