@@ -14,6 +14,12 @@ class ActionType extends Component {
 
     static GET_INFO = 'GET_INFO';
 
+    static GET_BOARD = 'GET_BOARD';
+
+    static ADD_BOARD = "ADD_BOARD";
+
+    static SET_BOARD = "SET_BOARD";
+
     static JOIN_ROOM = 'JOIN_ROOM';
 
     static CHAT = 'CHAT';

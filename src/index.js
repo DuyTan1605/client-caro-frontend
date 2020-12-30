@@ -1,10 +1,8 @@
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import thunkMiddleware from 'redux-thunk';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import rootReducers from './reducers/rootReducers';
+import store from "./store"
 import {
     BrowserRouter as Router,
     Switch,
@@ -19,43 +17,11 @@ import Register from "../src/containers/registerContainer"
 import Login from "../src/containers/loginContainer"
 import Info from "../src/containers/infoContainer"
 import Homepage from "../src/containers/homeContainer"
+import Activate from "./components/activate/activate"
+import Forgot from "./components/forgot/forgot"
+import ChangePassword from "./components/changePassword/changePassword"
 // Function save state
-function saveToLocalStorage(state) {
-    try {
-        if (state.roomReducers.roomInfo) {
-            localStorage.setItem('state', JSON.stringify(state));
-        }
-        else {
-            localStorage.setItem('state', null);
-        }
-    } catch (err) {
-        console.log('Error when call function saveToLocalStorage()', err);
-    }
-}
 
-// Function load state
-function loadFromLocalStorage() {
-    try {
-        const serializedState = localStorage.getItem('state');
-        if (!serializedState || serializedState === 'null') return undefined;
-        return JSON.parse(serializedState);
-    } catch (err) {
-        console.log('Error when call function loadFromLocalStorage()', err);
-        return undefined;
-    }
-}
-
-const persistedState = loadFromLocalStorage();
-
-// Create store
-const store = createStore(
-    rootReducers,
-    persistedState,
-    applyMiddleware(
-        thunkMiddleware
-    )
-);
-store.subscribe(() => saveToLocalStorage(store.getState()));
 
 
 const appRoot = (
@@ -67,11 +33,20 @@ const appRoot = (
                         <Login />
                     </Provider>
                 </Route>
+                <Route path='/activate/:id'>
+                    <Activate/>
+                </Route>
                 <Route path='/register'>
                     <Provider store={store}>
                         <Register />
                     </Provider>
                 </Route>
+                <Route path='/forgot'>
+                   <Forgot/>
+                </Route> 
+                <Route path='/reset/:id'>
+                   <ChangePassword/>
+                </Route> 
                 <Route path={['/','/home']}>
                     <Provider store={store}>
                         <Homepage />
@@ -82,6 +57,7 @@ const appRoot = (
                         <Info />
                     </Provider>
                 </Route> 
+                
                 {/* <Route path='/changeinfo'>
                     <Provider store={store}>
                         <Info />

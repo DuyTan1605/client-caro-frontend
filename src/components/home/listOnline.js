@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import {socket} from "../../helpers/socket"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,10 +46,18 @@ const StyledBadge = withStyles((theme) => ({
 
 export default function CheckboxListSecondary(props) {
   const classes = useStyles();
+  const [listOnline,setListOnline] = useState([]);
 
+  useEffect(()=>{
+    socket.emit("listUser");
+  },[])
+
+  socket.on("listonline",data=>{
+    setListOnline(data.filter(user=> user.id != JSON.parse(localStorage.getItem("user")).id));
+  })
   return (
     <List dense className={classes.root}>
-      {props.listUsers.map((user,value) => {
+      {listOnline.map((user,value) => {
         const labelId = `checkbox-list-secondary-label-${value}`;
         return (
           <ListItem key={value} button>
@@ -60,7 +69,7 @@ export default function CheckboxListSecondary(props) {
               }}
               variant="dot"
             >
-        {user.avatar?<Avatar alt={user.name} src={user.avatar} />:<AccountCircle/>}
+        {user.avatar?<Avatar alt={user.name} src={user.avatar} />:<AccountCircle fontSize="large"/>}
          </StyledBadge>
             <ListItemText style={{marginLeft:'1em'}} id={labelId} primary={user.name} />
           </ListItem>

@@ -16,8 +16,8 @@ import {
     Link
   } from "react-router-dom";
 
-import {logout} from "../../actions/auth.actions";
 import { useDispatch,useSelector} from "react-redux";
+import {socket} from "../../helpers/socket"
 //import {socket} from "../../helpers/socket"
 
 const useStyles = makeStyles((theme) => ({
@@ -99,6 +99,7 @@ export default function PrimarySearchAppBar(props) {
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
+  
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -118,6 +119,7 @@ export default function PrimarySearchAppBar(props) {
   };
 
   const logOut = () => {
+    socket.emit("logout",{id:JSON.parse(localStorage.getItem("user")).id});
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     props.refresh();

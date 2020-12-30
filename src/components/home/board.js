@@ -8,6 +8,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import BoardImage from "../../images/bg-login.jpg"
+import LockIcon from '@material-ui/icons/Lock';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import{
     Link
    } from "react-router-dom";
@@ -36,7 +38,13 @@ export default function MediaCard(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h6" component="h4">
-           Room: {props.board.name}
+           Room's name: {props.board.name}
+          </Typography>
+          <Typography gutterBottom variant="h6" component="h4">
+          Status:
+          </Typography>
+          <Typography gutterBottom variant="h6" component="h4">
+          Total people:
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {/* Created by : {props.board.user.name} */}
@@ -52,6 +60,8 @@ export default function MediaCard(props) {
             JOIN
             </Button>
         </Link>
+        {props.board.password ? <LockIcon style={{marginLeft:'auto'}}/> : <LockOpenIcon style={{marginLeft:'auto'}}/>}
+
       </CardActions>
     </Card>
   );

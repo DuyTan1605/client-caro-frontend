@@ -43,16 +43,15 @@ export default function Home(props) {
 
    return (
       <div className={classes.root}>
-        <>HOMEPAGE</>
-        {/* <Grid container spacing={3}>
+        <Grid container spacing={3}>
           <Grid item xs={12} md={10} sm={10}>
             <ListBoard/>
           </Grid>
           <Grid item xs={12} md={2} sm={2} style={{float:'right'}}>
             <h4>Users online</h4>
-            <ListOnline listUsers={listUsers}/>
+            {/* <ListOnline listUsers={listUsers}/> */}
           </Grid>
-        </Grid> */}
+        </Grid> 
         
       </div>
     );

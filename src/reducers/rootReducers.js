@@ -4,6 +4,7 @@ import loginReducers from './loginReducers';
 import registerReducers from './registerReducers';
 import infoReducers from './infoReducers';
 import roomReducers from './roomReducers';
+import boardReducers from './boardReducers'
 
 const rootReducers = combineReducers({
     // gameReducers,
@@ -11,6 +12,7 @@ const rootReducers = combineReducers({
     registerReducers,
     infoReducers,
     roomReducers,
+    boardReducers
 });
 
 export default rootReducers;

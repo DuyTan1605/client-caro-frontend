@@ -6,27 +6,46 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import {useDispatch} from "react-redux"
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { makeStyles } from '@material-ui/core/styles';
 
-import {CLEAR_MESSAGE} from "../../actions/type"
+const useStyles = makeStyles((theme) => ({
+    hide:{
+      display:'none'
+    },
+    appear:{
+      display: 'inline-block'
+    }
+}));
+
 export default function FormDialog(props) {
  
-    const [boardName, setboardName] = useState("");
-    const dispatch=useDispatch();
+  const classes = useStyles();
+  const [boardName, setboardName] = useState("");
+  const [timeOneStep, setTimeOneStep] = useState(5);
+  const [password,setPassword] = useState("");
+  const [checkPassword,setCheckPassowrd] = useState(false);
   const handleClose = () => {
     props.handleClose();    
   };
 
   const newBoard=(e)=>{
     e.preventDefault();
-    props.handleSubmit(boardName);
+    props.handleSubmit({boardName,timeOneStep,password});
     setboardName("");
+    setPassword("");
+    setCheckPassowrd(false);
   }
 
+  const handleChangeCheckBox = (event) => {
+    setCheckPassowrd(event.target.checked);
+    setPassword("");
+  };
+
   return (
-    <div>
-       
-      <Dialog open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title">
+    <div> 
+      <Dialog fullWidth maxWidth="md" open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title">
       <ValidatorForm
         onSubmit={newBoard}  
         useref="form"
@@ -34,10 +53,7 @@ export default function FormDialog(props) {
       >
         <DialogTitle id="form-dialog-title">Add new board</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-           Enter your board's name
-          </DialogContentText>
-         
+            
              <TextValidator
               margin="normal"
               fullWidth
@@ -49,6 +65,41 @@ export default function FormDialog(props) {
               errorMessages={["Board's name is required"]}
               autoFocus
               onChange={(e)=>setboardName(e.target.value)}
+            />
+
+          <TextValidator
+              margin="normal"
+              fullWidth
+              id="time"
+              label="Time for one step(>=5s)"
+              name="time"  
+              value={timeOneStep}
+              validators={['minNumber:5', 'maxNumber:255', 'matchRegexp:^[0-9]$']}
+              errorMessages={["Time must be valid"]}
+              autoFocus
+              onChange={(e)=>setTimeOneStep(e.target.value)}
+            />
+             <FormControlLabel
+          value={checkPassword}
+          control={<Checkbox color="primary" onChange={handleChangeCheckBox} />}
+          label="Use password"
+          labelPlacement="start"
+          style={{margin:0}}
+        />
+
+          <TextValidator
+              margin="normal"
+              fullWidth
+              id="password"
+              label="Password"
+              name="password"  
+              value={password}
+              type="password"
+              validators={checkPassword?['required']:[]}
+              errorMessages={checkPassword?["Password is required"]:[]}
+              autoFocus
+              onChange={(e)=>setPassword(e.target.value)}
+              className={checkPassword ? classes.appear : classes.hide}
             />
        
         </DialogContent>

@@ -26,6 +26,7 @@ class Config extends Component {
         // This section & isFetching are for getting info
         didInvalidate: false,
         userInfo: null,
+        boardInfo: null,
         roomInfo: null,
         chatHistory: [],
 

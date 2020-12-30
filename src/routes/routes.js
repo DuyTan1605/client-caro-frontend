@@ -2,6 +2,7 @@ import Login from "../components/login/login"
 import Register from "../components/register/register"
 import Home from "../components/home/index"
 import Board from "../components/board/boardContent"
+import Forgot from "../components/forgot/forgot";
 import { createBrowserHistory } from "history";
 import{
     BrowserRouter as Router,
@@ -20,13 +21,17 @@ const routes=[
         component: Register
     },
     {
+        path:'/forgot',
+        component: Forgot
+    },
+    {
         path: ['/',"/home"],
         component: Home
     },
     {
         path: ['/board/:id'],
         component: Board
-    },
+    }
     // {
     //     path: ['/changeInfo'],
     //     component: Board

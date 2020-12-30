@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
   },
+  btnSocial:{
+    margin: theme.spacing(2, 0, 2),
+  }
+  ,
   image: {
     backgroundImage: `url(${BackgroundLogin})`,
     backgroundRepeat: 'no-repeat',
@@ -93,13 +97,11 @@ export default function Login(props) {
       window.location.href = '/home';
   }
 
-  const responseGoogle = (response) => {  
-    console.log(response);
+  const responseGoogle = () => {  
     window.location.href= config['server-domain'] + 'users/login/google/'
   }
 
-  const responseFacebook = (response) => {
-    console.log(response);
+  const responseFacebook = () => {
     window.location.href= config['server-domain'] + 'users/login/facebook/'
   }
 
@@ -108,6 +110,11 @@ export default function Login(props) {
     //setloading(true);
     actions.fetchLogin(email,password);
 
+  }
+
+  if(localStorage.getItem("user"))
+  {
+      window.location.href="/home";
   }
 
   return (
@@ -171,39 +178,23 @@ export default function Login(props) {
               Sign In {loading && (<CircularProgress color="primary" size="1.5em"/>)}
             </Button>
 
-            <GoogleLogin
-            clientId="94702749463-04p7t8q8h0s3gnrjjdn3j4dtf4n1dqf3.apps.googleusercontent.com"
-            render={renderProps => (
-              <Button onClick={renderProps.onClick} disabled={renderProps.disabled}
-              fullWidth
-            variant="contained"
-            color="secondary"
-            style={{marginBottom:'1em'}}
-              >Google Login</Button>
-            )}
-            buttonText="Login"
-            onSuccess={responseGoogle}
-          />
+        <Button
+        fullWidth
+       
+        style={{color:"white",background:'red'}}
+        onClick={responseGoogle}
+        >Google Login</Button>
         
-        <FacebookLogin
-            appId="673687296663444"
-            render={renderProps => (
-              <Button onClick={renderProps.onClick} disabled={renderProps.disabled}
-              fullWidth
-            variant="contained"
-            color="primary"
-            style={{marginBottom:'2em'}}
-              >Facebook Login</Button>
-            )}
-            buttonText="Login"
-            fields="name,email,picture"
-            callback={responseFacebook}
-          />
-
+        <Button
+        fullWidth
+        className = {classes.btnSocial}
+        style={{color:"white",background:'blue',}}
+        onClick={responseFacebook}
+        >Facebook Login</Button>
 
             <Grid container>
               <Grid item xs>
-                <Link href="/" variant="body2">
+                <Link href="/forgot" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
