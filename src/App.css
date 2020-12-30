@@ -64,3 +64,10 @@ ol, ul {
 .is-win{
   background-color:greenyellow;
 }
+
+.game{
+  margin: 2em;
+}
+.is-win{
+  background-color:greenyellow;
+}

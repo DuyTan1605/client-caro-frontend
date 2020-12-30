@@ -29,6 +29,7 @@ export default function Home(props) {
   //   setlistUsers(data.filter(user=>user.id!=myId));
   // })
 
+<<<<<<< HEAD
   // useEffect(() => {
   //   const currentUser=JSON.parse(localStorage.getItem("user"))
   //   if(currentUser)
@@ -40,6 +41,19 @@ export default function Home(props) {
   //     }
   //   }
   // }, []);
+=======
+  useEffect(() => {
+    const currentUser=JSON.parse(localStorage.getItem("user"))
+    if(currentUser)
+    {
+      socket.emit("login",{name:currentUser.name,id:currentUser.id,avatar:currentUser.avatar});
+      if(sessionStorage.getItem("anonymousUser"))
+      {
+        socket.emit("logout",{id:JSON.parse(sessionStorage.getItem("anonymousUser")).id});
+      }
+    }
+  }, []);
+>>>>>>> ec76cfb88b4e2bb358805dd25babead1390b5144
 
    return (
       <div className={classes.root}>

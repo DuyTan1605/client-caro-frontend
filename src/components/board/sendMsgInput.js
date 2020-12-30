@@ -13,9 +13,11 @@ export default function (props)
     const [message, setmessage] = useState("");
 
     const sendMsg=()=>{
-        console.log(message);
-        socket.emit("chatMessage",message);
-        setmessage("");
+        if(message!="")
+        {
+          socket.emit("chatMessage",message);
+          setmessage("");
+        }
     }
 
     return (
@@ -30,7 +32,10 @@ export default function (props)
               id="message"
               name="message"  
               value={message}
+<<<<<<< HEAD
+=======
               validators={['required']}
+>>>>>>> 8d6cbacbe8a20846000a1b4b8e1d6f6201e9d45e
               errorMessages={["Message is required"]}
               autoFocus
               onChange={(e)=>setmessage(e.target.value)}
