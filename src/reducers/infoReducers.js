@@ -8,7 +8,6 @@ export default function handleGetInfo(state = Config.initialState, action) {
                 return {
                     ...state,
                     isFetching: true,
-                    didInvalidate: false,
                     userInfo: null,
                 }
             }
@@ -16,7 +15,6 @@ export default function handleGetInfo(state = Config.initialState, action) {
                 return {
                     ...state,
                     isFetching: false,
-                    didInvalidate: true,
                     userInfo: null
                 }
             }
@@ -24,7 +22,6 @@ export default function handleGetInfo(state = Config.initialState, action) {
                 return {
                     ...state,
                     isFetching: false,
-                    didInvalidate: false,
                     userInfo: action.userInfo
                 }
             }
@@ -33,6 +30,33 @@ export default function handleGetInfo(state = Config.initialState, action) {
             }
 
         case ActionType.CHANGE_INFO:
+            if (action.status === 'REQUEST') {
+                return {
+                    ...state,
+                    isFetching: true,
+                    message: action.message
+                }
+            }
+            else if (action.status === 'FAILED') {
+                return {
+                    ...state,
+                    isFetching: false,
+                    message: action.message
+                }
+            }
+            else if (action.status === 'SUCCESS') {
+                return {
+                    ...state,
+                    isFetching: false,
+                    message: action.message,
+                    userInfo: action.userInfo
+                }
+            }
+            else {
+                return state;
+            }
+
+        case ActionType.CHANGE_PASSWORD:
             if (action.status === 'REQUEST') {
                 return {
                     ...state,

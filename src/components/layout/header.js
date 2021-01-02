@@ -100,7 +100,7 @@ export default function PrimarySearchAppBar(props) {
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   
-
+  console.log(props);
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -122,10 +122,11 @@ export default function PrimarySearchAppBar(props) {
     socket.emit("logout",{id:JSON.parse(localStorage.getItem("user")).id});
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    
     props.refresh();
     window.location.href = '/login';
   };
-  const dispatch = useDispatch();
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
    

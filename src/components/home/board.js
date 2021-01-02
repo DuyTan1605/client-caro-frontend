@@ -38,12 +38,12 @@ export default function MediaCard(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h6" component="h4">
-           Room's name: {props.board.name}
+           RoomID: {props.board.id}
           </Typography>
-          <Typography gutterBottom variant="h6" component="h4">
+          <Typography gutterBottom variant="h6" component="h6">
           Status:
           </Typography>
-          <Typography gutterBottom variant="h6" component="h4">
+          <Typography gutterBottom variant="h6" component="h6">
           Total people:
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">

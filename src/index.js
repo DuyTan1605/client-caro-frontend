@@ -5,7 +5,6 @@ import * as serviceWorker from './serviceWorker';
 import './App.css';
 import reportWebVitals from './reportWebVitals';
 import Routes from "../src/routes/routes"
-import { Provider } from "react-redux";
 import store from "./store"
 import {
     BrowserRouter as Router,
@@ -48,6 +47,11 @@ const appRoot = (
                 <Route path='/forgot'>
                    <Forgot/>
                 </Route> 
+                <Route path='/profile'>
+                    <Provider store={store}>
+                        <Info />
+                    </Provider>
+                </Route> 
                 <Route path='/reset/:id'>
                    <ChangePassword/>
                 </Route> 
@@ -56,11 +60,7 @@ const appRoot = (
                         <Homepage />
                     </Provider>
                 </Route>
-                <Route path='/profile'>
-                    <Provider store={store}>
-                        <Info />
-                    </Provider>
-                </Route> 
+              
                 
                 {/* <Route path='/changeinfo'>
                     <Provider store={store}>

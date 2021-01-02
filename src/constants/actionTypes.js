@@ -31,6 +31,8 @@ class ActionType extends Component {
     static REFRESH = 'REFRESH';
 
     static CHANGE_INFO = 'CHANGE_INFO';
+
+    static CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 }
 
 export default ActionType;

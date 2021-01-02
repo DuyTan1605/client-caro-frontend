@@ -22,7 +22,7 @@ export default function Home(props)
     const refresh = ()=>{
         actions.actionRefresh();
     }
-    if (didInvalidate) {
+    if (!localStorage.getItem("token")) {
            window.location.href = "/login";
     }
     else{
@@ -30,9 +30,9 @@ export default function Home(props)
         if(userInfo)
         {
            // console.log(userInfo);
-           localStorage.setItem("user",JSON.stringify(userInfo));
+           localStorage.setItem("user",JSON.stringify(userInfo)); 
 
-           socket.emit("login",{name:userInfo.name,id:userInfo.id,avatar:userInfo.avatar});
+           socket.emit("login",userInfo);
             if(userInfo.account_type ==1 && userInfo.activate == 0 )
             {
                 return (<Activate/>)

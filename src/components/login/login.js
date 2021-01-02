@@ -112,7 +112,7 @@ export default function Login(props) {
 
   }
 
-  if(localStorage.getItem("user"))
+  if(localStorage.getItem("token"))
   {
       window.location.href="/home";
   }

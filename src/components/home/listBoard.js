@@ -13,6 +13,7 @@ import {CLEAR_MESSAGE} from "../../actions/type"
 import Board from "./board"
 import {addNewBoard} from "../../actions/board.actions"
 import _ from "lodash"
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -63,10 +64,27 @@ export default function ListBoard(props) {
 
   if(boardInfo)
     {
+      console.log(boardInfo)
         const myBoard = _.filter(boardInfo,{created_by:parseInt(JSON.parse(localStorage.getItem("user")).id)}); 
         const otherBoard = _.xor(boardInfo,myBoard); 
         return (
           <div className={classes.root}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <h2 style={{display:'inline-block',marginRight:'2%'}}>Play now</h2>
+                <Fab color="primary" aria-label="Play now" className={classes.fab}>
+                  <PlayCircleFilledIcon/>
+                </Fab>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <h2 style={{display:'inline-block',marginRight:'2%'}}>Play with room ID</h2>
+                <Fab color="primary" aria-label="Play now" className={classes.fab}>
+                  <PlayCircleFilledIcon/>
+                </Fab>
+              </Grid>
+
+            </Grid>
           {(<>
               <h1 style={{color:"#283593"}}>My games</h1>
                   <Grid container spacing={3}>
