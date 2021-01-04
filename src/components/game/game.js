@@ -14,6 +14,8 @@ import axios from 'axios';
 import {useParams} from "react-router-dom"
 import { useHistory } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress'
+
+
 function Game(props) {
     let historyRouter = useHistory();
     const { actions } = props;
@@ -42,12 +44,12 @@ function Game(props) {
     }
     else{
     // Temporary states
-    const [avatarSrc, setAvatarSrc] = useState(JSON.parse(localStorage.getItem('user')).avatar);
-    const [rivalAvatarSrc, setRivalAvatarSrc] = useState(userInfo.id == roomInfo.playerO.id ? roomInfo.playerX.avatar : roomInfo.playerO.avatar);
+    const [avatarSrc, setAvatarSrc] = useState(roomInfo.playerX.avatar);
+    const [rivalAvatarSrc, setRivalAvatarSrc] = useState(roomInfo.playerO.avatar);
     const [dialog, setDialog] = useState('');
     const { chatHistory } = props;
     // Setup socket
-    setupSocket(chatHistory);
+    setupSocket();
 
     // Setup chat engine
   
@@ -75,7 +77,7 @@ function Game(props) {
 
     // Setup disable state for components
     const oneIsDisconnect = roomInfo.playerO.status === 'DISCONNECTED' || roomInfo.playerX.status === 'DISCONNECTED';
-    const needToDisable = winCells || oneIsDisconnect || isFetching;
+    const needToDisable = winCells || oneIsDisconnect || isFetching || (userInfo.id != roomInfo.playerO.id && userInfo.id != roomInfo.playerX.id);
 
     // Setup board game
     const current = history[stepNumber];
@@ -86,7 +88,7 @@ function Game(props) {
         const content = move ? `Xin về lượt #${
             Config.makeTwoDigits(move)}:
             (${Config.makeTwoDigits(history[move].x)},${Config.makeTwoDigits(history[move].y)})`
-        : `Xin chơi lại từ đầu !`;
+        : `Chơi lại !`;
         const variant = (move === stepNumber) ? `danger` : `success`;
         
         // Get current move
@@ -118,47 +120,54 @@ function Game(props) {
     })
 
     // Setup players info (too complicated, do not try to understand)
-    const ourname = userInfo.name;
-    var isPlayerX = ourname === roomInfo.playerX.name;
-    if (ourname !== roomInfo.playerX.name) {
-        isPlayerX = ourname !== roomInfo.playerO.name;
-    }
-    const rivalname = isPlayerX ? roomInfo.playerO.name : roomInfo.playerX.name;
+    // const Xname = userInfo.name;
+    // var isPlayerX = Xname === roomInfo.playerX.name;
+    // if (Xname !== roomInfo.playerX.name) {
+    //     isPlayerX = Xname !== roomInfo.playerO.name;
+    // }
+    // const rivalname = isPlayerX ? roomInfo.playerO.name : roomInfo.playerX.name;
 
+    const Xname = roomInfo.playerX.name;
+    const rivalname = roomInfo.playerO.name;
+    var isPlayerX = userInfo.name === roomInfo.playerX.name;
+    if (userInfo.name !== roomInfo.playerX.name) {
+        isPlayerX = userInfo.name !== roomInfo.playerO.name;
+    }
     return (
         <div className='App'>
             <header className='App-header'>
                 {/* <img src={logo} className='App-logo' alt='logo' /> */}
-                <Status nextMove={nextMove}
-                    winCells={winCells}
-                    rivalname={roomInfo.playerO.name}
-                    messages={message}
-                    isPlayerX={isPlayerX}/>
+                <div style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
+                    <Status nextMove={nextMove}
+                        winCells={winCells}
+                        rivalname={roomInfo.playerO.name}
+                        messages={message}
+                        isPlayerX={isPlayerX}/>
+                </div>
                 <Dialog ref={(el) => setDialog(el)} />
                 <div className='board-game'>
                     <div>
                         {/* Our infomation */}
                         <Card className='card'>
                             <Card.Body className='card-body'>
-                                <Card.Title className='card-title'>[{isPlayerX ? `X` : `O`}] Mình [{isPlayerX ? `X` : `O`}]</Card.Title>
-                                <Card.Text className='card-text-bold'><b>{ourname}</b></Card.Text>
-                                <Card.Text className='card-text-bold'><b>{isPlayerX?roomInfo.playerX.status:roomInfo.playerO.status}</b></Card.Text>
+                                <Card.Title className='card-title'>{userInfo.id == roomInfo.playerX.id ? "Bạn": userInfo.id == roomInfo.playerO.id ? "Đối thủ":"Role"}: X </Card.Title>
+                                <Card.Text className='card-text-bold'><b>{Xname}</b></Card.Text>
+                                <Card.Text className='card-text-bold'><b>{roomInfo.playerX.status}</b></Card.Text>
                                 <img src={avatarSrc} className='avatar-small' alt='avatar'/><br></br>
-                                <Button className='logout-button' variant='info' onClick={() => goHome()}>Trang chủ</Button>
+                                <Card.Text className='card-text-bold'><b>Rank: {roomInfo.playerX.rank}</b></Card.Text>
+                                <Card.Text className='card-text-bold'><b>Total match: {roomInfo.playerX.total_match}</b></Card.Text>
                             </Card.Body>
                         </Card>
-                        <br></br>
+                        <h2>VS</h2>
                         {/* Rival infomation */}
                         <Card className='card'>
                             <Card.Body className='card-body'>
-                                <Card.Title className='card-title'>[{!isPlayerX ? `X` : `O`}] Đối thủ [{!isPlayerX ? `X` : `O`}]</Card.Title>
+                                <Card.Title className='card-title'>{userInfo.id == roomInfo.playerO.id ? "Bạn":userInfo.id == roomInfo.playerX.id ? "Đối thủ":"Role"} : O  </Card.Title>
                                 <Card.Text className='card-text-bold'><b>{rivalname}</b></Card.Text>
-                                <Card.Text className='card-text-bold'><b>{!isPlayerX?roomInfo.playerX.status:roomInfo.playerO.status}</b></Card.Text>
+                                <Card.Text className='card-text-bold'><b>{roomInfo.playerO.status}</b></Card.Text>
                                 <img src={rivalAvatarSrc} className='avatar-small' alt='rivalAvatar'/><br></br>
-                                <Button className='logout-button' variant='info' onClick={() => requestSurrender()}
-                                        disabled={needToDisable}>Đầu hàng</Button>&nbsp;&nbsp;
-                                <Button className='logout-button' variant='info' onClick={() => requestCeasefire()}
-                                        disabled={needToDisable}>Xin hoà</Button>
+                                <Card.Text className='card-text-bold'><b>Rank: {roomInfo.playerO.rank}</b></Card.Text>
+                                <Card.Text className='card-text-bold'><b>Total match: {roomInfo.playerO.total_match}</b></Card.Text>
                             </Card.Body>
                         </Card>
                     </div>
@@ -167,25 +176,36 @@ function Game(props) {
                                 squares={current.squares}
                                 currentCell={[current.x, current.y]}
                                 handleClick={(i, j) => userClick(i, j)}/>
+                        <Button className='logout-button' variant='info' onClick={() => goHome()}>Trang chủ</Button>&nbsp;&nbsp;
+                        <Button className='logout-button' variant='info' onClick={() => requestSurrender()}
+                                        style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}
+                                        disabled={needToDisable}>Đầu hàng</Button>&nbsp;&nbsp;
+                        <Button className='logout-button' variant='info' onClick={() => requestCeasefire()}
+                                style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}
+                                disabled={needToDisable}>Xin hoà</Button>
                     </div>
-                    <div>
+                    {/* <div> */}
                         {/* Change sort mode */}
-                        <Button className='change-sort-button' onClick={actions.actionChangeSort}>{sortMode}</Button>
-                        <br></br>
-                        <ScrollToBottom className='scroll-view' mode={accendingMode ? `bottom` : `top`}>
-                            <ol >{moves}</ol>
-                        </ScrollToBottom>
+                        <div style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
+                            <div style={{width:'100%', marginLeft: "30px"}}>
+                                <Button className='change-sort-button' onClick={actions.actionChangeSort}>{sortMode}</Button>
+                                <br></br>
+                                <ScrollToBottom className='scroll-view' mode={accendingMode ? `bottom` : `top`}>
+                                    <ol>{moves}</ol>
+                                </ScrollToBottom>
+                            </div>
+                        {/* </div> */}
                         {/* Chat panel */}
                         <Card className='card-chat'>
                             <Card.Body className='card-body'>
-                                <Card.Title className='card-title'>Nhắn tin</Card.Title>
+                                <Card.Title className='card-title'>Chat</Card.Title>
                                 <div className='scroll-view-chat'>
                                     {chatHistoryUI}
                                 </div>
                                 <form onSubmit={e => handleChat(e)}>
                                     <FormControl type='chatMessage'
                                         className='input-message'
-                                        placeholder='Nhập và nhấn Enter'
+                                        placeholder='Your message'
                                         value={chatMessage}
                                         disabled={needToDisable}
                                         onChange={e => setChatMessage(e.target.value)}>
@@ -384,6 +404,7 @@ function Game(props) {
             squares[row][col] = curMove;
             const _nextMove = curMove === Config.xPlayer ? Config.oPlayer : Config.xPlayer;
             const _winCells = checkWin(row, col, curMove, newHistory.length - 1);
+            console.log(_winCells);
             const _history  = newHistory.concat([{
                 x: row,
                 y: col,
@@ -431,7 +452,7 @@ function Game(props) {
         setChatMessage('');
     }
 
-    function setupSocket(chatHistory) {
+    function setupSocket() {
         socket.removeAllListeners();
         socket.on('move', function (data) {
             handleClick(data.row, data.col);

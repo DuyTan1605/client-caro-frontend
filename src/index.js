@@ -24,6 +24,7 @@ import Activate from "./components/activate/activate"
 import Forgot from "./components/forgot/forgot"
 import ChangePassword from "./components/changePassword/changePassword"
 import Game from "../src/containers/gameContainer"
+
 // Function save state
 
 

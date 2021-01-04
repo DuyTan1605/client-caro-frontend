@@ -1,6 +1,7 @@
 
 .App {
     text-align: center;
+    margin: 2%;
   }
   
   /* body {
@@ -28,7 +29,7 @@
     align-items: left;
     justify-content: flex-start;
     font-size: calc(10px + 2vmin);
-    color: white;
+    color:black;
   }
   
   .App-link {
@@ -175,13 +176,13 @@
   }
   
   .card-chat {
-    width: 260px;
+    width:100%;
     margin-left: 30px;
     margin-top: 2px;
   }
   
   .card-body {
-    padding: 0px;
+    padding-bottom: 10px;
     background: rgb(222, 222, 222);
   }
   
@@ -244,7 +245,7 @@
     font: 13px 'Courier New', Courier, monospace;
     padding: 5px;
     margin: 5px;
-    width: 238px;
+    width: 100%;
   }
   
   .avatar-small {

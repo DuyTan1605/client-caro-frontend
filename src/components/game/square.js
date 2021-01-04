@@ -8,7 +8,7 @@ function Square(props) {
     const { isCurrentCell } = props;
     
     const moveColor = value === Config.xPlayer ? Config.plColor.X : Config.plColor.O;
-    const className = isCurrentCell ? 'square-current' : (winCell === false ? 'square' : 'square-win');
+    const className = winCell ? 'square-win' : (isCurrentCell === true ? 'square-current' : 'square');
     return (
         <Button className={className} variant="dark"
                 onClick={() => props.handleClick(props.row, props.col)}>
