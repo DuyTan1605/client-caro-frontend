@@ -3,6 +3,8 @@ import { bindActionCreators } from 'redux';
 import Homepage from "../components/home/index"
 import fetchInfo from "../actions/actionGetInfo"
 import actionRefresh from '../actions/actionRefresh';
+import actionJoinRoom from '../actions/actionJoinRoom';
+import actionResetGame from '../actions/actionResetGame';
 // Connect variables
 function mapStateToProps(state) {
     return {
@@ -18,9 +20,9 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             fetchInfo,
-            // actionJoinRoom,
+            actionJoinRoom,
             actionRefresh,
-            // actionResetGame
+            actionResetGame
         }, dispatch)
     };
 }

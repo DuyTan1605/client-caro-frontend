@@ -12,6 +12,7 @@ const history = createBrowserHistory();
 
 export default function Home(props)
 {
+    
     const { actions } = props;
     const { didInvalidate } = props;
     const { isFetching } = props;

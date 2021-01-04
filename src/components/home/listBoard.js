@@ -14,6 +14,10 @@ import Board from "./board"
 import {addNewBoard} from "../../actions/board.actions"
 import _ from "lodash"
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import store from "../../store"
+import { Provider } from 'react-redux'
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -33,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ListBoard(props) {  
 
-  console.log(props);
+  console.log(store);
   const classes = useStyles();
   const {actions} = props;
   const {isFetching} = props;
@@ -98,7 +102,9 @@ export default function ListBoard(props) {
                         myBoard.map((board,index)=>{
                           return (
                           <Grid item xs={3} key={index}>
-                               <Board board={board}/>
+                             {/* <Provider store={store}> */}
+                               <Board board={board} history={history}/>
+                              {/* </Provider> */}
                           </Grid>
                           )
                         })
@@ -112,7 +118,9 @@ export default function ListBoard(props) {
                          otherBoard.map((board,index)=>{
                           return (
                           <Grid item xs={3} key={index}>
-                                <Board board={board}/>
+                             {/* <Provider store={store}> */}
+                                <Board board={board} history={history}/>
+                            {/* </Provider> */}
                           </Grid>
                           )
                         })

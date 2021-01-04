@@ -123,7 +123,7 @@ export default function PrimarySearchAppBar(props) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     
-    props.refresh();
+    // props.refresh();
     window.location.href = '/login';
   };
 

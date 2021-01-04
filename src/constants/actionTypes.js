@@ -4,7 +4,7 @@ class ActionType extends Component {
     
     static CLICK = 'CLICK';
 
-    static CHANG_SORT = 'CHANGE_SORT';
+    static CHANGE_SORT = 'CHANGE_SORT';
 
     static JUMP_TO = 'JUMP_TO';
 

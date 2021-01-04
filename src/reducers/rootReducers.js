@@ -5,9 +5,9 @@ import registerReducers from './registerReducers';
 import infoReducers from './infoReducers';
 import roomReducers from './roomReducers';
 import boardReducers from './boardReducers'
-
+import gameReducers from "./gameReducers"
 const rootReducers = combineReducers({
-    // gameReducers,
+    gameReducers,
     loginReducers,
     registerReducers,
     infoReducers,

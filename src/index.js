@@ -23,6 +23,7 @@ import Homepage from "../src/containers/homeContainer"
 import Activate from "./components/activate/activate"
 import Forgot from "./components/forgot/forgot"
 import ChangePassword from "./components/changePassword/changePassword"
+import Game from "../src/containers/gameContainer"
 // Function save state
 
 
@@ -55,6 +56,13 @@ const appRoot = (
                 <Route path='/reset/:id'>
                    <ChangePassword/>
                 </Route> 
+
+                <Route path='/board/:id'>
+                    <Provider store={store}>
+                            <Game/>
+                    </Provider>
+                </Route> 
+
                 <Route path={['/','/home']}>
                     <Provider store={store}>
                         <Homepage />
