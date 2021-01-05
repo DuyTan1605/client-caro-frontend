@@ -14,7 +14,7 @@ import axios from 'axios';
 import {useParams} from "react-router-dom"
 import { useHistory } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress'
-
+import DefaultLayout from "../layout/defaultLayout"
 
 function Game(props) {
     let historyRouter = useHistory();
@@ -22,7 +22,7 @@ function Game(props) {
     console.log(props);
 
     socket.on('joinroom-success', function (roomInfo) {
-        console.log(roomInfo); 
+       // console.log(roomInfo); 
        actions.actionJoinRoom(roomInfo);
     })
 
@@ -35,12 +35,17 @@ function Game(props) {
     const { roomInfo } = props;
     const { isFetching } = props;
     const { message } = props;
-
+    const { winnerBg } = props;
+   
     if(!roomInfo || !roomInfo.playerO || !roomInfo.playerX)
     {
-        return (<div style={{textAlign:'center'}}>
-             <h1>WAITING OTHER PLAYER <CircularProgress/></h1>
-        </div>)
+        return (
+            <DefaultLayout>
+            <div style={{textAlign:'center',marginTop:'2%'}}>
+                <h1>Wating other player <CircularProgress/></h1>
+            </div>
+        </DefaultLayout>
+        )
     }
     else{
     // Temporary states
@@ -49,6 +54,7 @@ function Game(props) {
     const [dialog, setDialog] = useState('');
     const { chatHistory } = props;
     // Setup socket
+   
     setupSocket();
 
     // Setup chat engine
@@ -63,18 +69,6 @@ function Game(props) {
         chatHistoryUI.push(<br key={i + chatHistory.length}></br>);
     }
 
-    // Setup avatar
-    // if (roomInfo.justReconnect || chatHistory.length === 0) {
-       
-    //     if (roomInfo.justReconnect) {
-    //         roomInfo.justReconnect = null;
-    //         socket.emit('chat', '@@@AVATAR_SIGNAL@@@' + userInfo.name);
-    //     }
-    //     else {
-    //         socket.emit('chat', '@@@AVATAR_SIGNAL@@@' + userInfo.name);
-    //     }
-    // }
-
     // Setup disable state for components
     const oneIsDisconnect = roomInfo.playerO.status === 'DISCONNECTED' || roomInfo.playerX.status === 'DISCONNECTED';
     const needToDisable = winCells || oneIsDisconnect || isFetching || (userInfo.id != roomInfo.playerO.id && userInfo.id != roomInfo.playerX.id);
@@ -85,7 +79,7 @@ function Game(props) {
     const moves = [];
 
     history.map((step, move) => {
-        const content = move ? `Xin về lượt #${
+        const content = move ? `Về lượt #${
             Config.makeTwoDigits(move)}:
             (${Config.makeTwoDigits(history[move].x)},${Config.makeTwoDigits(history[move].y)})`
         : `Chơi lại !`;
@@ -134,6 +128,7 @@ function Game(props) {
         isPlayerX = userInfo.name !== roomInfo.playerO.name;
     }
     return (
+        <DefaultLayout>
         <div className='App'>
             <header className='App-header'>
                 {/* <img src={logo} className='App-logo' alt='logo' /> */}
@@ -149,7 +144,8 @@ function Game(props) {
                     <div>
                         {/* Our infomation */}
                         <Card className='card'>
-                            <Card.Body className='card-body'>
+                            <Card.Body className='card-body' 
+            style={{background : ((winCells && nextMove == "O") || (winnerBg == roomInfo.playerX.id)) ? "#80ff80" : (winnerBg=="draw"? "#ffd699": "")}}>
                                 <Card.Title className='card-title'>{userInfo.id == roomInfo.playerX.id ? "Bạn": userInfo.id == roomInfo.playerO.id ? "Đối thủ":"Role"}: X </Card.Title>
                                 <Card.Text className='card-text-bold'><b>{Xname}</b></Card.Text>
                                 <Card.Text className='card-text-bold'><b>{roomInfo.playerX.status}</b></Card.Text>
@@ -161,7 +157,8 @@ function Game(props) {
                         <h2>VS</h2>
                         {/* Rival infomation */}
                         <Card className='card'>
-                            <Card.Body className='card-body'>
+                            <Card.Body className='card-body' 
+                         style={{background :((winCells && nextMove == "X") || (winnerBg == roomInfo.playerO.id)) ? "#80ff80" : (winnerBg=="draw"? "#ffd699": "")}}>
                                 <Card.Title className='card-title'>{userInfo.id == roomInfo.playerO.id ? "Bạn":userInfo.id == roomInfo.playerX.id ? "Đối thủ":"Role"} : O  </Card.Title>
                                 <Card.Text className='card-text-bold'><b>{rivalname}</b></Card.Text>
                                 <Card.Text className='card-text-bold'><b>{roomInfo.playerO.status}</b></Card.Text>
@@ -186,8 +183,8 @@ function Game(props) {
                     </div>
                     {/* <div> */}
                         {/* Change sort mode */}
-                        <div style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
-                            <div style={{width:'100%', marginLeft: "30px"}}>
+                        <div>
+                            <div style={{width:'100%', marginLeft: "30px",display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
                                 <Button className='change-sort-button' onClick={actions.actionChangeSort}>{sortMode}</Button>
                                 <br></br>
                                 <ScrollToBottom className='scroll-view' mode={accendingMode ? `bottom` : `top`}>
@@ -206,8 +203,9 @@ function Game(props) {
                                     <FormControl type='chatMessage'
                                         className='input-message'
                                         placeholder='Your message'
+                                        style={{background:"white"}}
                                         value={chatMessage}
-                                        disabled={needToDisable}
+                                        // disabled={needToDisable}
                                         onChange={e => setChatMessage(e.target.value)}>
                                     </FormControl>
                                 </form>
@@ -217,7 +215,7 @@ function Game(props) {
                 </div>
             </header>
         </div>
-    
+        </DefaultLayout>
     );
 
     function goHome() {
@@ -404,13 +402,24 @@ function Game(props) {
             squares[row][col] = curMove;
             const _nextMove = curMove === Config.xPlayer ? Config.oPlayer : Config.xPlayer;
             const _winCells = checkWin(row, col, curMove, newHistory.length - 1);
-            console.log(_winCells);
+           // console.log(_winCells);
+            //console.log(props);
+            
             const _history  = newHistory.concat([{
                 x: row,
                 y: col,
                 squares
             }]);
-
+            if(_winCells)
+            {
+                if(props.roomInfo.playerX.id == props.userInfo.id)
+                {
+                    const winnerId = _nextMove == "O" ? props.roomInfo.playerX.id :props.roomInfo.playerO.id;
+                    const loserId = _nextMove == "O" ? props.roomInfo.playerO.id :props.roomInfo.playerX.id;
+                    //console.log(winnerId,loserId,_history,props.chatHistory);
+                    actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,_history,props.chatHistory,"normal");
+                }
+            }
             // Call action
             actions.actionClick(_history, _nextMove, _winCells);
             return true;
@@ -448,11 +457,13 @@ function Game(props) {
 
     function handleChat(e) {
         e.preventDefault();
-        socket.emit('chat', {sender:JSON.parse(localStorage.getItem('user')).name,message:chatMessage});
+        socket.emit('chat', {idSender:JSON.parse(localStorage.getItem('user')).id,sender:JSON.parse(localStorage.getItem('user')).name,message:chatMessage});
         setChatMessage('');
     }
 
     function setupSocket() {
+        if(userInfo.id == roomInfo.playerX.id || userInfo.id == roomInfo.playerO.id)
+        {
         socket.removeAllListeners();
         socket.on('move', function (data) {
             handleClick(data.row, data.col);
@@ -465,30 +476,28 @@ function Game(props) {
             }
         });
         socket.on('chat', function (data) {
-            if (data.message.startsWith('@@@AVATAR_SIGNAL@@@')) {
-                if (data.sender === 'ĐThủ') {
-                    // const fullUrl = data.message.substr('@@@AVATAR_SIGNAL@@@'.length);
-                    // setRivalAvatarSrc(fullUrl);
-                    // data.message = data.message;
-                    // actions.actionChat(data);
-                }
-                if (chatHistory.length === 0) {
-                    data.message = '[Gửi ảnh đại diện]';
-                    actions.actionChat(data);
-                }
-            }
-            else {
                 actions.actionChat(data);
-            }
         });
 
+        socket.on("winner",function(winnerId)
+        {
+            actions.actionAddWinner(winnerId);
+        })
         // Surrender / Ceasefire
         socket.on('surrender-request', function (data) {
             doConfirm('Đối thủ muốn đầu hàng ván này !', () => {
-                socket.emit('surrender-result', {
-                    message: 'yes'
-                });
+                
                 actions.actionRequest(true, `Chúc mừng bạn đã giành chiến thắng !`);
+                const winnerId = (userInfo.id == roomInfo.playerX.id || userInfo.id == roomInfo.playerO.id) ? userInfo.id : null;
+                socket.emit('surrender-result', {
+                    message: 'yes',
+                    winnerId: winnerId
+                });
+                if(winnerId)
+                {
+                    const loserId = (winnerId == roomInfo.playerX.id) ? roomInfo.playerO.id : roomInfo.playerX.id;
+                    actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,props.history,props.chatHistory,"surrender");
+                }
             }, () => {
                 socket.emit('surrender-result', {
                     message: 'no'
@@ -498,6 +507,7 @@ function Game(props) {
         });
         socket.on('surrender-result', function (data) {
             if (data.message === `yes`) {
+                const winnerId = userInfo.id == roomInfo.playerX.id ? roomInfo.playerO.id : roomInfo.playerX.id;
                 actions.actionRequest(true, `Bạn đã chấp nhận thua cuộc !`);
                 if (!data.noAlert) {
                     dialog.showAlert(`Đối thủ đã chấp nhận lời đầu hàng!`);
@@ -514,6 +524,7 @@ function Game(props) {
                     message: 'yes'
                 });
                 actions.actionRequest(true, `Đã thống nhất hoà nhau !`);
+                actions.actionAddHistory(roomInfo.id,roomInfo.playerO.id,roomInfo.playerX.id,props.history,props.chatHistory,"draw");
             }, () => {
                 socket.emit('ceasefire-result', {
                     message: 'no'
@@ -588,26 +599,61 @@ function Game(props) {
 
         // Reconnect if browser refresh
         if (!socket.joinroom) {
-            console.log(socket.joinroom)
+            //console.log(socket.joinroom)
            
             socket.joinroom = true;
             socket.emit('on-reconnect', { roomInfo, userInfo });
            
         }
-        socket.on('on-reconnect', function (data) {
-            // If found the room, join it
-            if (data) {
-                data.justReconnect = true;
-                console.log(data);
-              
-                actions.actionJoinRoom(data);
-            }
+            socket.on('on-reconnect', function (data) {
+                // If found the room, join it
+                if (data) {
+                    data.justReconnect = true;
+                // console.log(data);
+                
+                    actions.actionJoinRoom(data);
+                }
 
-            // Else reset
-            else {
-                actions.actionRefresh();
-            }
-        });
+                // Else reset
+                else {
+                    actions.actionRefresh();
+                }
+            });
+        }
+        else{
+            socket.removeAllListeners();
+            socket.on('move', function (data) {
+                handleClick(data.row, data.col);
+            });
+            socket.on('disconnect1', function (data) {
+    
+                // Check if data is 'transport close'
+                if (data.id) {
+                    actions.actionJoinRoom(data);
+                }
+            });
+            socket.on('chat', function (data) {
+                    actions.actionChat(data);
+            });
+            socket.on('winner',function(winnerId)
+            {
+                actions.actionAddWinner(winnerId);
+            })
+            socket.on('on-reconnect', function (data) {
+                // If found the room, join it
+                if (data) {
+                    data.justReconnect = true;
+                // console.log(data);
+                
+                    actions.actionJoinRoom(data);
+                }
+
+                // Else reset
+                else {
+                    actions.actionRefresh();
+                }
+            });
+        }
     }
 
     function doConfirm(message, callbackYes, callbackNo) {
@@ -618,7 +664,7 @@ function Game(props) {
                 Dialog.CancelAction(() => callbackNo()),
                 Dialog.OKAction(() => callbackYes())
             ],
-            bsSize: 'sm',
+            bsSize: 'md',
             onHide: (dialog) => {}
         })
     }

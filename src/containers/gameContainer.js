@@ -8,8 +8,9 @@ import actionChat from '../actions/actionChat';
 import actionRequest from '../actions/actionRequest';
 import actionResetGame from '../actions/actionResetGame';
 import actionRefresh from '../actions/actionRefresh';
+import actionAddHistory from "../actions/actionAddHistory";
 import Game from '../components/game/game';
-
+import actionAddWinner from "../actions/actionAddWinner"
 // Connect variables
 function mapStateToProps(state) {
     //console.log(state);
@@ -23,7 +24,8 @@ function mapStateToProps(state) {
         message: state.gameReducers.message,
         userInfo: state.infoReducers.userInfo,
         roomInfo: state.roomReducers.roomInfo,
-        chatHistory: state.roomReducers.chatHistory
+        chatHistory: state.roomReducers.chatHistory,
+        winnerBg: state.gameReducers.winner
     };
 }
 
@@ -38,7 +40,9 @@ function mapDispatchToProps(dispatch) {
             actionChat,
             actionRequest,
             actionResetGame,
-            actionRefresh
+            actionRefresh,
+            actionAddHistory,
+            actionAddWinner
         }, dispatch)
     };
 }

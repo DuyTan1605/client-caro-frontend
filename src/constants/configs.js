@@ -43,7 +43,10 @@ class Config extends Component {
             stepNumber: 0,
             winCells: null,
             accendingMode: false,
-        }
+        },
+
+        listHistory:[],
+        winner: null
     };
 }
 

@@ -33,6 +33,10 @@ class ActionType extends Component {
     static CHANGE_INFO = 'CHANGE_INFO';
 
     static CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+
+    static ADD_HISTORY = "ADD_HISTORY";
+
+    static ADD_WINNER = "ADD_WINNER";
 }
 
 export default ActionType;
