@@ -15,8 +15,12 @@ import {addNewBoard} from "../../actions/board.actions"
 import _ from "lodash"
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import store from "../../store"
-import { Provider } from 'react-redux'
 import { createBrowserHistory } from "history";
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
+import JoinRoomWithID from "./joinRoomWithID"
+import EnterPassword from "./enterPassword"
+import {useHistory} from "react-router-dom"
+
 const history = createBrowserHistory();
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,13 +41,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ListBoard(props) {  
 
-  console.log(store);
   const classes = useStyles();
   const {actions} = props;
   const {isFetching} = props;
   const {boardInfo} = props;
-  
+  const historyRoute = useHistory();
   const [open, setOpen] = useState(false);
+  const [openJoinRoom, setOpenJoinRoom] = useState(false);
+  const [openPasswordRoom, setOpenPasswordRoom] = useState(false);
+  const [boardId, setboardID] = useState("");
+  const [message,setMessage] = useState("");
+  const [isPassword,setIsPassword] = useState(false);
   const [myBoard, setmyBoard] = useState([]);
   const [otherBoard, setotherBoard] = useState([]);
   
@@ -51,15 +59,63 @@ export default function ListBoard(props) {
     setOpen(true)
   }
 
+  const handleClickOpenJoinRoom=()=>{
+    setOpenJoinRoom(true)
+  }
+
   const handleClose = ()=>{
     setOpen(false);
   } 
 
+  const handleCloseJoinRoom = ()=>{
+    setOpenJoinRoom(false);
+    setMessage("");
+  } 
+
+  const handleClosePasswordRoom = ()=>{
+    setOpenPasswordRoomRoom(false);
+    setMessage("");
+  } 
+
+
   const handleSubmit = ({boardName,timeOneStep,password})=>{
-    console.log(boardName,timeOneStep,password);
     setOpen(false);
     actions.addBoard(localStorage.getItem('token'),boardName,timeOneStep,password);
   }
+
+  const handleSubmitJoinRoom = (boardID)=>{
+    const pos = _.findIndex(props.boardInfo,{id:parseInt(boardID)});
+      if(pos == -1)
+      {
+          setMessage("Không tồn tại game có ID là " + boardID);
+      }
+      else{
+         if(!props.boardInfo[pos].password)
+         {
+            socket.emit('joinroom',{user:JSON.parse(localStorage.getItem("user")),room:parseInt(boardID),time:props.boardInfo[pos].time_for_one_step});
+            historyRoute.push(`/board/${boardID}`);
+            setOpenJoinRoom(false);
+         }
+         else{
+            setboardID(boardID);
+            setOpenPasswordRoom(true);
+         }
+      }
+  }
+    const handleSubmitPasswordRoom = (boardID,password)=>{
+      const pos = _.findIndex(props.boardInfo,{id:parseInt(boardID)});
+      if(props.boardInfo[pos].password == password)
+      {
+        setOpenPasswordRoom(false);
+        socket.emit('joinroom',{user:JSON.parse(localStorage.getItem("user")),room:parseInt(boardID),time:props.boardInfo[pos].time_for_one_step});
+        historyRoute.push(`/board/${boardID}`);
+      } 
+      else{
+        setMessage("Mật khẩu không chính xác");
+      }
+    }
+
+    
 
   socket.on("listBoard",data=>{
     console.log("Data socket board: ",data);
@@ -77,15 +133,29 @@ export default function ListBoard(props) {
               <Grid item xs={12} md={6}>
                 <h2 style={{display:'inline-block',marginRight:'2%'}}>Play now</h2>
                 <Fab color="primary" aria-label="Play now" className={classes.fab}>
-                  <PlayCircleFilledIcon/>
+                  <SportsEsportsIcon/>
                 </Fab>
               </Grid>
 
               <Grid item xs={12} md={6}>
                 <h2 style={{display:'inline-block',marginRight:'2%'}}>Play with room ID</h2>
-                <Fab color="primary" aria-label="Play now" className={classes.fab}>
+                <Fab color="primary" aria-label="Play now" className={classes.fab} onClick={handleClickOpenJoinRoom}>
                   <PlayCircleFilledIcon/>
                 </Fab>
+                <JoinRoomWithID 
+                message={message} 
+                open = {openJoinRoom} 
+                handleClose = {handleCloseJoinRoom} 
+                handleSubmit={handleSubmitJoinRoom}
+                />
+                
+                <EnterPassword 
+                message={message} 
+                board={boardId} 
+                open = {openPasswordRoom} 
+                handleClose = {handleClosePasswordRoom}
+                handleSubmit={handleSubmitPasswordRoom}
+                />
               </Grid>
 
             </Grid>

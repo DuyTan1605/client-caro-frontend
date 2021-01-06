@@ -24,6 +24,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from "react-router-dom";
+import clsx from 'clsx';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Drawer from '@material-ui/core/Drawer';
+import MenuIcon from '@material-ui/icons/Menu';
+import ListItemText from '@material-ui/core/ListItemText';
+import DesktopMenu from "./menu"
 //import {socket} from "../../helpers/socket"
 
 
@@ -36,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: 'none',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'block',
     },
   },
@@ -218,27 +225,73 @@ export default function PrimarySearchAppBar(props) {
     </Menu>
   );
 
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+
+  const list = (anchor) => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+      })}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        {['Bảng xếp hạng'].map((text, index) => (
+          <Link key={index} to ="/ranking">
+          <ListItem button >
+            <ListItemText primary={text} />
+          </ListItem>
+          </Link>
+        ))}
+      </List>
+    </div>
+  );
 
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Link to={"/home"} style={{textDecoration:'none',color:'white'}}><Typography className={classes.title} variant="h5" noWrap>
+          <Link to={"/home"} style={{textDecoration:'none',color:'white'}}>
+          <Typography className={classes.title} variant="h5" noWrap>
             Caro
-          </Typography></Link>
-          {/* <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div> */}
+          </Typography>
+          </Link>
+          <span className={classes.title}>
+            <DesktopMenu/>
+          </span>
+          <div className={classes.sectionMobile} style={{flexGrow:'1'}}>
+             <React.Fragment key="left">
+                  {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
+                      <IconButton
+                  edge="start"
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={toggleDrawer("left", true)}
+                >
+                  <MenuIcon />
+                </IconButton>
+                  <Drawer anchor="left" open={state["left"]} onClose={toggleDrawer("left", false)}>
+                        {list("left")}
+                  </Drawer>
+               </React.Fragment>
+          </div>
+
           <div className={classes.grow} />
 
           <Dialog
@@ -284,7 +337,7 @@ export default function PrimarySearchAppBar(props) {
           </Button>
         </DialogActions>
       </Dialog>
-
+    
           <span> Hello, {currentUser?currentUser.name:""}</span>
           <div className={classes.sectionDesktop}>
             <IconButton

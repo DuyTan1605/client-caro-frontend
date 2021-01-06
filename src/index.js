@@ -14,7 +14,6 @@ import {
 // import Homepage from './containers/homepage';
 // import Login from './containers/login';
 // import Register from './containers/register';
-
 import './index.css';
 import Register from "../src/containers/registerContainer"
 import Login from "../src/containers/loginContainer"
@@ -24,7 +23,7 @@ import Activate from "./components/activate/activate"
 import Forgot from "./components/forgot/forgot"
 import ChangePassword from "./components/changePassword/changePassword"
 import Game from "../src/containers/gameContainer"
-
+import Ranking from "../src/containers/rankingContainer"
 // Function save state
 
 
@@ -68,6 +67,12 @@ const appRoot = (
                         <Homepage />
                     </Provider>
                 </Route>
+
+                {/* <Route path='/ranking'>
+                    <Provider store={store}>
+                        <Ranking />
+                    </Provider>
+                </Route>  */}
               
                 
                 {/* <Route path='/changeinfo'>
