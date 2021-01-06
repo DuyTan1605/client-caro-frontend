@@ -13,10 +13,9 @@ import defaultAvatar from '@material-ui/core/Avatar';
 import axios from 'axios';
 import {useParams} from "react-router-dom"
 import { useHistory } from "react-router-dom";
-import CircularProgress from '@material-ui/core/CircularProgress'
 import DefaultLayout from "../layout/defaultLayout"
 import CountDown from "./countDown"
-
+import WaitingRoom from "./waitingRoom"
 
 function Game(props) {
     let historyRouter = useHistory();
@@ -29,6 +28,7 @@ function Game(props) {
     })
 
     
+
     const { history } = props;
     const { stepNumber } = props;
     const { nextMove } = props;
@@ -39,14 +39,17 @@ function Game(props) {
     const { isFetching } = props;
     const { message } = props;
     const { winnerBg } = props;
-    
+
+    const acceptInvited = ()=>{
+        console.log("accept: ",roomInfo);
+        // actions.actionJoinRoom(roomInfo);
+    }
+
     if(!roomInfo || !roomInfo.playerO || !roomInfo.playerX)
     {
         return (
-            <DefaultLayout>
-            <div style={{textAlign:'center',marginTop:'2%'}}>
-                <h1>Wating other player <CircularProgress/></h1>
-            </div>
+        <DefaultLayout>
+            <WaitingRoom acceptInvited = {()=>acceptInvited()}/>
         </DefaultLayout>
         )
     }

@@ -15,6 +15,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import {useParams} from "react-router-dom"
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +58,13 @@ export default function CheckboxListSecondary(props) {
   const classes = useStyles();
   const [listOnline,setListOnline] = useState([]);
   const [open, setOpen] = React.useState(false);
+  let { id : room } = useParams();
+  const [dialog, setDialog] = useState('');
+  const history = useHistory();
+  const [openInvited,setOpenInvited] = useState(false);
 
+  const [invitedUser,setInvitedUser] = useState('');
+  const [invitedUserId,setInvitedUserId] = useState('');
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -72,27 +81,87 @@ export default function CheckboxListSecondary(props) {
     setListOnline(data.filter(user=> user.id != JSON.parse(localStorage.getItem("user")).id));
   })
 
+  const sendInvitatiton = (userId,userName)=>{
+    setInvitedUser(userName);
+    setInvitedUserId(userId);
+    setOpenInvited(true);
+  }
+
+  const handleCloseInvited = () => {
+    setOpenInvited(false);
+  };
+
+  const handleAccept = ()=>{
+      console.log("Accept invoite: ",invitedUserId);
+      setOpenInvited(false);
+      socket.emit('invitation',{sender:JSON.parse(localStorage.getItem("user")).name,userId:invitedUserId,room,senderID:JSON.parse(localStorage.getItem("user")).id});
+  }
+
+  const handleReject = ()=>{
+    setOpenInvited(false);
+  }
+
+  socket.on("accept-invited",function(data)
+  {
+    if(JSON.parse(localStorage.getItem("user")).id == data.senderID && data.room == room)
+    {
+        //props.acceptInvited();
+        socket.emit('joinroom',{user:JSON.parse(localStorage.getItem("user")),room,time:null});
+        history.push(`/board/${room}`);
+    }
+  })
+
   return (
     <List dense className={classes.root}>
       {listOnline.map((user,value) => {
         const labelId = `checkbox-list-secondary-label-${value}`;
         return (
           <div key={value}>
-          <Button onClick={handleClickOpen}>
-          <ListItem>
-          <StyledBadge
-              overlap="circle"
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              variant="dot"
-            >
-        {user.avatar?<Avatar alt={user.name} src={user.avatar} />:<AccountCircle fontSize="large"/>}
-         </StyledBadge>
-            <ListItemText style={{marginLeft:'1em'}} id={labelId} primary={user.name} />
-          </ListItem>
-         </Button>
+         <Grid container>
+            <Grid item xs={6}>
+                <Button onClick={handleClickOpen}>
+                <ListItem>
+                <StyledBadge
+                    overlap="circle"
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    variant="dot"
+                    >
+                {user.avatar?<Avatar alt={user.name} src={user.avatar} />:<AccountCircle fontSize="large"/>}
+                </StyledBadge>
+                    <ListItemText style={{marginLeft:'1em'}} id={labelId} primary={user.name} />
+                </ListItem>
+                </Button>
+            </Grid>
+            <Grid item xs={6}>
+                <Button variant="contained" color="primary" style={{textTransform:'none',marginTop:"2%"}} onClick={()=>sendInvitatiton(user.id,user.name)}>
+                    Mời
+                </Button>
+                <Dialog
+                    open={openInvited}
+                    onClose={handleCloseInvited}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Xác nhận mời người chơi"}</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Bạn có muốn mời {invitedUser} tham gia phòng chơi {room}
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleAccept} color="primary" autoFocus>
+                        Đồng ý
+                    </Button>
+                    <Button onClick={handleReject} color="primary">
+                        Từ chối
+                    </Button>
+                    </DialogActions>
+                </Dialog>
+            </Grid>
+         </Grid>
           <Dialog
           open={open}
           fullWidth
@@ -121,10 +190,10 @@ export default function CheckboxListSecondary(props) {
           <DialogActions>
             {/* <Button onClick={handleClose} color="primary">
               Disagree
-            </Button>
-            <Button onClick={handleClose} color="primary" autoFocus>
-              Agree
             </Button> */}
+            <Button onClick={handleClose} color="primary">
+                Cancel
+            </Button>
           </DialogActions>
         </Dialog>
         </div>
@@ -132,4 +201,5 @@ export default function CheckboxListSecondary(props) {
       })}
     </List>
   );
+
 }

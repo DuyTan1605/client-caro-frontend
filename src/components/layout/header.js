@@ -18,7 +18,14 @@ import {
 
 import { useDispatch,useSelector} from "react-redux";
 import {socket} from "../../helpers/socket"
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { useHistory } from "react-router-dom";
 //import {socket} from "../../helpers/socket"
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -93,13 +100,39 @@ export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const [sender,setSender] = useState("");
+  const [senderID,setSenderID] = useState("");
+  const [gameID,setGameID] = useState("");
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [open,setOpen] = useState(false);
+  const [openSender,setOpenSender] = useState(false);
+  const history = useHistory();
+  
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCloseSender = () => {
+    setOpenSender(false);
+  };
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
-  
+  socket.on("invitation",function(data){
+    
+    console.log("On invitation: " , data);
+    // console.log(localStorage.getItem("user"))
+      if(JSON.parse(localStorage.getItem("user")).id == data.userId)
+      {
+          setSender(data.sender);
+          setSenderID(data.senderID);
+          setGameID(data.room);
+          setOpen(true);
+      }
+  })
+
   console.log(props);
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -126,6 +159,28 @@ export default function PrimarySearchAppBar(props) {
     // props.refresh();
     window.location.href = '/login';
   };
+
+  const handleAccept = ()=>{
+    socket.emit('joinroom',{user:JSON.parse(localStorage.getItem("user")),room:gameID,time:null});
+    socket.emit('accept-invited',{receiver:JSON.parse(localStorage.getItem("user")).name,senderID:senderID,room:gameID});
+    history.push(`/board/${gameID}`);
+    setOpen(false);
+  }
+
+  const handleReject = ()=>{
+    socket.emit('reject-invited',{receiver:JSON.parse(localStorage.getItem("user")).name,senderID:senderID,room:gameID});
+    setOpen(false);
+  }
+
+  socket.on('reject-invited',function(data)
+  {
+      if(JSON.parse(localStorage.getItem("user")).id == data.senderID)
+      {
+        setSender(data.receiver);
+        setGameID(data.room);
+        setOpenSender(true);
+      }
+  })
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -163,6 +218,7 @@ export default function PrimarySearchAppBar(props) {
     </Menu>
   );
 
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -184,6 +240,51 @@ export default function PrimarySearchAppBar(props) {
             />
           </div> */}
           <div className={classes.grow} />
+
+          <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Lời mời tham gia phòng chơi"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+              {sender} muốn mời bạn tham gia phòng chơi {gameID}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAccept} color="primary">
+            Đồng ý
+          </Button>
+          <Button onClick={handleReject} color="primary" autoFocus>
+            Từ chối
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+
+      <Dialog
+        open={openSender}
+        onClose={handleCloseSender}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Từ chối tham gia phòng chơi"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+              {sender} từ chối tham gia phòng chơi {gameID}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={()=>setOpenSender(false)} color="primary">
+            Đồng ý
+          </Button>
+        </DialogActions>
+      </Dialog>
+
           <span> Hello, {currentUser?currentUser.name:""}</span>
           <div className={classes.sectionDesktop}>
             <IconButton
@@ -216,4 +317,6 @@ export default function PrimarySearchAppBar(props) {
       {renderMenu}
     </div>
   );
+  
+
 }
