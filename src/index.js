@@ -57,17 +57,19 @@ const appRoot = (
                     </Provider>
                 </Route> 
 
+                <Route path='/ranking'>
+                    <Provider store={store}>
+                        <Ranking />
+                    </Provider>
+                </Route> 
+                
                 <Route path={['/','/home']}>
                     <Provider store={store}>
                         <Homepage />
                     </Provider>
                 </Route>
 
-                <Route path='/ranking'>
-                    <Provider store={store}>
-                        <Ranking />
-                    </Provider>
-                </Route> 
+                
               
                 
                 {/* <Route path='/changeinfo'>

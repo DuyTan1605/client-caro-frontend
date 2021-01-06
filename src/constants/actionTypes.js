@@ -41,6 +41,8 @@ class ActionType extends Component {
     static SET_COUNTDOWN = "SET_COUNTDOWN";
 
     static END_GAME = "END_GAME";
+
+    static GET_RANKING = "GET_RANKING";
 }
 
 export default ActionType;

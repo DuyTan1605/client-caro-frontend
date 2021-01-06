@@ -45,10 +45,11 @@ class Config extends Component {
             accendingMode: false,
         },
 
-        listHistory:[],
+        listHistory: [],
         winner: null,
         countDown: false,
-        endGame : false
+        endGame : false,
+        rankingInfo : null
     };
 }
 
