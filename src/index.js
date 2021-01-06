@@ -3,17 +3,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import './App.css';
-import reportWebVitals from './reportWebVitals';
-import Routes from "../src/routes/routes"
 import store from "./store"
 import {
     BrowserRouter as Router,
     Switch,
     Route
 } from 'react-router-dom';
-// import Homepage from './containers/homepage';
-// import Login from './containers/login';
-// import Register from './containers/register';
 import './index.css';
 import Register from "../src/containers/registerContainer"
 import Login from "../src/containers/loginContainer"
@@ -68,11 +63,11 @@ const appRoot = (
                     </Provider>
                 </Route>
 
-                {/* <Route path='/ranking'>
+                <Route path='/ranking'>
                     <Provider store={store}>
                         <Ranking />
                     </Provider>
-                </Route>  */}
+                </Route> 
               
                 
                 {/* <Route path='/changeinfo'>

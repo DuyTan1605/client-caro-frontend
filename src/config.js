@@ -5,9 +5,6 @@ var exports_1 = {
 };
 
 // These exports are for uploading to heroku
-var exports_2 = {
-    'client-domain': 'https://btgk-1612422.herokuapp.com/',
-    'server-domain': 'https://btcn06-1612422.herokuapp.com/'
-};
+
 
 export default exports_1;
