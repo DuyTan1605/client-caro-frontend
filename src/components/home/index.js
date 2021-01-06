@@ -41,7 +41,7 @@ export default function Home(props)
 
            return (
             <DefaultLayout refresh={refresh}>
-                 <Grid container spacing={3}>
+                 <Grid container spacing={3} style={{marginTop:'2%'}}>
                     <Grid item xs={12} md={10} sm={10}>
                         <Provider store={store}>
                              <ListBoard/>

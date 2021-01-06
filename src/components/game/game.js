@@ -15,6 +15,8 @@ import {useParams} from "react-router-dom"
 import { useHistory } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress'
 import DefaultLayout from "../layout/defaultLayout"
+import CountDown from "./countDown"
+
 
 function Game(props) {
     let historyRouter = useHistory();
@@ -22,10 +24,11 @@ function Game(props) {
     console.log(props);
 
     socket.on('joinroom-success', function (roomInfo) {
-       // console.log(roomInfo); 
+       //console.log(roomInfo); 
        actions.actionJoinRoom(roomInfo);
     })
 
+    
     const { history } = props;
     const { stepNumber } = props;
     const { nextMove } = props;
@@ -36,7 +39,7 @@ function Game(props) {
     const { isFetching } = props;
     const { message } = props;
     const { winnerBg } = props;
-   
+    
     if(!roomInfo || !roomInfo.playerO || !roomInfo.playerX)
     {
         return (
@@ -71,7 +74,7 @@ function Game(props) {
 
     // Setup disable state for components
     const oneIsDisconnect = roomInfo.playerO.status === 'DISCONNECTED' || roomInfo.playerX.status === 'DISCONNECTED';
-    const needToDisable = winCells || oneIsDisconnect || isFetching || (userInfo.id != roomInfo.playerO.id && userInfo.id != roomInfo.playerX.id);
+    const needToDisable = props.endGame || winCells || oneIsDisconnect || isFetching || (userInfo.id != roomInfo.playerO.id && userInfo.id != roomInfo.playerX.id);
 
     // Setup board game
     const current = history[stepNumber];
@@ -127,17 +130,38 @@ function Game(props) {
     if (userInfo.name !== roomInfo.playerX.name) {
         isPlayerX = userInfo.name !== roomInfo.playerO.name;
     }
+
+    const [isCheck,setisCheck] = useState(props.countDown);
+    // actions.actionSetCountDown(false);
+    const endGame = ()=>{
+        actions.actionSetCountDown(false);
+        actions.actionEndGame(true);
+        
+        if(!needToDisable)
+        {
+            const winnerId = props.nextMove == "O" ? props.roomInfo.playerX.id : props.roomInfo.playerO.id;
+            const loserId = winnerId == props.roomInfo.playerO.id ? props.roomInfo.playerX.id : props.roomInfo.playerO.id;
+            socket.emit("endgame",{winnerId,loserId});
+            actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,props.history,props.chatHistory,"normal");
+        }
+
+        console.log("End game: ",props);
+    }
     return (
         <DefaultLayout>
         <div className='App'>
             <header className='App-header'>
                 {/* <img src={logo} className='App-logo' alt='logo' /> */}
                 <div style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
+                    {roomInfo.playerX.id == userInfo.id && nextMove == "X" && !needToDisable &&
+                    <CountDown countDown = {props.countDown} time = {roomInfo.time} endGame = {endGame} needToDisable={needToDisable}/>}
                     <Status nextMove={nextMove}
                         winCells={winCells}
                         rivalname={roomInfo.playerO.name}
                         messages={message}
                         isPlayerX={isPlayerX}/>
+                    {roomInfo.playerO.id == userInfo.id &&  nextMove=="O" && !needToDisable &&
+                    <CountDown countDown = {props.countDown} time = {roomInfo.time} endGame = {endGame} needToDisable={needToDisable}/>}
                 </div>
                 <Dialog ref={(el) => setDialog(el)} />
                 <div className='board-game'>
@@ -176,10 +200,10 @@ function Game(props) {
                         <Button className='logout-button' variant='info' onClick={() => goHome()}>Trang chủ</Button>&nbsp;&nbsp;
                         <Button className='logout-button' variant='info' onClick={() => requestSurrender()}
                                         style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}
-                                        disabled={needToDisable}>Đầu hàng</Button>&nbsp;&nbsp;
+                                        disabled={needToDisable }>Đầu hàng</Button>&nbsp;&nbsp;
                         <Button className='logout-button' variant='info' onClick={() => requestCeasefire()}
                                 style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}
-                                disabled={needToDisable}>Xin hoà</Button>
+                                disabled={needToDisable }>Xin hoà</Button>
                     </div>
                     {/* <div> */}
                         {/* Change sort mode */}
@@ -366,7 +390,7 @@ function Game(props) {
         const { nextMove } = props;
 
         // Prevent user click if rival is disconnected
-        if (needToDisable) {
+        if (needToDisable ) {
             return;
         }
 
@@ -382,12 +406,14 @@ function Game(props) {
     }
 
     function handleClick(row, col) {
+      
         const { actions } = props
         const { stepNumber } = props;
         const { history } = props;
         const { nextMove } = props;
         const { winCells } = props;
-
+        actions.actionSetCountDown(true);
+        actions.actionJoinRoom(roomInfo);
         // It should be named 'curMove'
         const curMove = nextMove;
         const newHistory = history.slice(0, stepNumber + 1);
@@ -430,7 +456,7 @@ function Game(props) {
     function jumpTo(step) {
         const { actions } = props
         const { history } = props;
-
+        actions.actionEndGame(false);
         const { nextMove } = props;
         const oppositeNextMove = nextMove === Config.xPlayer ? Config.oPlayer : Config.xPlayer;
         const { stepNumber } = props;
@@ -457,7 +483,10 @@ function Game(props) {
 
     function handleChat(e) {
         e.preventDefault();
-        socket.emit('chat', {idSender:JSON.parse(localStorage.getItem('user')).id,sender:JSON.parse(localStorage.getItem('user')).name,message:chatMessage});
+        socket.emit('chat', 
+        {idSender:JSON.parse(localStorage.getItem('user')).id,
+        sender:JSON.parse(localStorage.getItem('user')).name,
+        message:chatMessage});
         setChatMessage('');
     }
 
@@ -465,6 +494,20 @@ function Game(props) {
         if(userInfo.id == roomInfo.playerX.id || userInfo.id == roomInfo.playerO.id)
         {
         socket.removeAllListeners();
+        socket.on('endgame',function(data)
+        {
+            actions.actionEndGame(true);
+             if(userInfo.id == data.winnerId)
+            {
+                actions.actionRequest(true, `Đối thủ hết thời gian, bạn đã chiến thắng !`);
+            }
+            if(userInfo.id == data.loserId)
+            {  
+                actions.actionRequest(true, `Hết thời gian, bạn đã thất bại !`);
+            }
+            actions.actionAddWinner(data.winnerId);
+        })
+
         socket.on('move', function (data) {
             handleClick(data.row, data.col);
         });

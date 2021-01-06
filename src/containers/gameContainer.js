@@ -11,6 +11,8 @@ import actionRefresh from '../actions/actionRefresh';
 import actionAddHistory from "../actions/actionAddHistory";
 import Game from '../components/game/game';
 import actionAddWinner from "../actions/actionAddWinner"
+import actionSetCountDown from  "../actions/actionSetCountDown"
+import actionEndGame from "../actions/actionEndGame"
 // Connect variables
 function mapStateToProps(state) {
     //console.log(state);
@@ -25,7 +27,9 @@ function mapStateToProps(state) {
         userInfo: state.infoReducers.userInfo,
         roomInfo: state.roomReducers.roomInfo,
         chatHistory: state.roomReducers.chatHistory,
-        winnerBg: state.gameReducers.winner
+        winnerBg: state.gameReducers.winner,
+        countDown: state.gameReducers.countDown,
+        endGame : state.gameReducers.endGame
     };
 }
 
@@ -42,7 +46,9 @@ function mapDispatchToProps(dispatch) {
             actionResetGame,
             actionRefresh,
             actionAddHistory,
-            actionAddWinner
+            actionAddWinner,
+            actionSetCountDown,
+            actionEndGame
         }, dispatch)
     };
 }

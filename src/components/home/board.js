@@ -59,7 +59,7 @@ export default function MediaCard(props) {
       setOpen(true);
     }
     else{
-      socket.emit('joinroom',{user:JSON.parse(localStorage.getItem("user")),room:props.board.id});
+      socket.emit('joinroom',{user:JSON.parse(localStorage.getItem("user")),room:props.board.id,time:props.board.time_for_one_step});
      history.push(`/board/${props.board.id}`);
     }
   }
@@ -81,7 +81,7 @@ export default function MediaCard(props) {
     }
     if(password == props.board.password)
     { 
-     socket.emit('joinroom',{user:JSON.parse(localStorage.getItem("user")),room:props.board.id});
+     socket.emit('joinroom',{user:JSON.parse(localStorage.getItem("user")),room:props.board.id,time:props.board.time_for_one_step});
      history.push(`/board/${props.board.id}`);
       //window.location.href = `/board/${props.board.id}`;
     }

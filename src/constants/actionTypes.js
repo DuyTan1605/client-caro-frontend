@@ -37,6 +37,10 @@ class ActionType extends Component {
     static ADD_HISTORY = "ADD_HISTORY";
 
     static ADD_WINNER = "ADD_WINNER";
+
+    static SET_COUNTDOWN = "SET_COUNTDOWN";
+
+    static END_GAME = "END_GAME";
 }
 
 export default ActionType;

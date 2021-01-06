@@ -10,7 +10,7 @@ export function actionChangeInfo(status, message) {
     };
 }
 
-export default function fetchChangeInfo(name,email,avatar) {
+export default function fetchChangeInfo(name,email,avatar,type) {
 
     return dispatch => {
 
@@ -29,7 +29,8 @@ export default function fetchChangeInfo(name,email,avatar) {
             body: JSON.stringify({
                 name,
                 email,
-                avatar
+                avatar,
+                type
             })
         })
         .then(

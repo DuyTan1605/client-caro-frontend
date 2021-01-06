@@ -46,7 +46,9 @@ class Config extends Component {
         },
 
         listHistory:[],
-        winner: null
+        winner: null,
+        countDown: false,
+        endGame : false
     };
 }
 

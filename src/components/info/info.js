@@ -30,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     backgroundColor: "#3f51b5",
     padding: "5px",
-    borderRadius: "8px",
-    fontSize: "18px",
+    borderRadius: "5px",
+    fontSize: "15px",
+    marginTop:'3px'
   },
   
   uploadBtnWrapperFile: {
@@ -110,7 +111,7 @@ export default function Infor(props) {
    e.preventDefault();
     if(type=="info")
     {
-      actions.fetchChangeInfo(info.name,info.email,previewSource);
+      actions.fetchChangeInfo(info.name,info.email,previewSource,info.account_type==1?"normal":"social");
       setTimeout(()=>refresh(),2000);
     }
     if(type=="password")
@@ -194,6 +195,7 @@ export default function Infor(props) {
                       autoComplete="email"
                       type="email"
                       value={info.email}
+                      disabled={info.account_type!=1}
                       onChange={(e)=>setInfo({...info,email:e.target.value})}
                     />
                   </Grid>
@@ -203,7 +205,10 @@ export default function Infor(props) {
               <Grid item xs={12} sm={12}>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
-                    <TextField disabled id="totalmatch" label="Total match" defaultValue={info.total_match} fullWidth variant="filled" />
+                    <TextField 
+                    disabled id="totalmatch" label="Total match" 
+                    defaultValue={info.total_match} 
+                    fullWidth variant="filled" />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField disabled id="percentWin" label="Percent win" defaultValue={info.percent_win} fullWidth variant="filled" />
@@ -228,7 +233,7 @@ export default function Infor(props) {
                   </Button>
               </Grid>
 
-              <Grid item xs={12} style={{padding:'1%',border:'2px red',borderStyle:'dashed',textAlign:'center'}}>
+              {/* <Grid item xs={12} style={{padding:'1%',border:'2px red',borderStyle:'dashed',textAlign:'center'}}>
                 <div><h2 style={{color:"red",display:'inline-block',marginRight:'5px'}}>DANGER ZONE</h2><WarningIcon fontSize="large"/></div>
                         <Button
                   style={{textTransform:'none'}}
@@ -240,7 +245,7 @@ export default function Infor(props) {
                 >
                   Delete Account
               </Button>
-              </Grid>
+              </Grid> */}
 
 
 

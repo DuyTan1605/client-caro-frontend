@@ -11,7 +11,7 @@ export default function handleGame(state = Config.initialState, action) {
                     history: action.history,
                     stepNumber: action.history.length - 1,
                     nextMove: action.nextMove,
-                    winCells: action.winCells
+                    winCells: action.winCells,
                 }
             }
         
@@ -59,7 +59,10 @@ export default function handleGame(state = Config.initialState, action) {
                     stepNumber: 0,
                     winCells: null,
                     accendingMode: false,
-                }
+                },
+                endGame: false,
+                winner: null,
+                countDown: false
             };
         
         case ActionType.ADD_WINNER:
@@ -67,6 +70,19 @@ export default function handleGame(state = Config.initialState, action) {
                 ...state,
                winner: action.message
             };
+
+        case ActionType.SET_COUNTDOWN:
+            return {
+                ...state,
+                countDown: action.message
+            };
+        
+        case ActionType.END_GAME:
+            return {
+                ...state,
+                endGame: action.message
+            };
+
         case ActionType.REFRESH:
             return Config.initialState;
         

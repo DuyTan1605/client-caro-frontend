@@ -90,7 +90,7 @@ export default function ListBoard(props) {
 
             </Grid>
           {(<>
-              <h1 style={{color:"#283593"}}>My games</h1>
+              <h1 style={{color:"#283593",margin:'2% 0'}}>My games</h1>
                   <Grid container spacing={3}>
                       <Grid item xs={3}>  
                         <Fab color="primary" aria-label="Add" className={classes.fab} onClick={handleClickOpen}>
@@ -112,7 +112,7 @@ export default function ListBoard(props) {
                   </Grid>
               </>)  
               }  
-              <h1 style={{color:"#283593"}}>Other games</h1>
+              <h1 style={{color:"#283593",margin:'2% 0'}}>Other games</h1>
                   <Grid container spacing={3}>
                      {
                          otherBoard.map((board,index)=>{

@@ -27,7 +27,7 @@ function Status(props) {
         message = `Lượt kế tiếp: ${  props.nextMove}`;
     }
     return (
-        <div className='status'><b>{message}</b></div>
+        <span className='status'><b>{message}</b></span>
     )
 }
 
