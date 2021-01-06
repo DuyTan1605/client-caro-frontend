@@ -20,6 +20,7 @@ import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import JoinRoomWithID from "./joinRoomWithID"
 import EnterPassword from "./enterPassword"
 import {useHistory} from "react-router-dom"
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const history = createBrowserHistory();
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +55,7 @@ export default function ListBoard(props) {
   const [isPassword,setIsPassword] = useState(false);
   const [myBoard, setmyBoard] = useState([]);
   const [otherBoard, setotherBoard] = useState([]);
-  
+  const [finding,setFinding] = useState(false);
   const handleClickOpen=()=>{
     setOpen(true)
   }
@@ -115,11 +116,25 @@ export default function ListBoard(props) {
       }
     }
 
-    
+  const findPlayer = ()=>
+  {
+    setFinding(true);
+    socket.emit("findPlayer",JSON.parse(localStorage.getItem('user')));
+  } 
+
+  const cancelFindPlayer = ()=>{
+    setFinding(false);
+  }
 
   socket.on("listBoard",data=>{
     console.log("Data socket board: ",data);
     actions.setBoard(data);
+  })
+
+  socket.on("joinroom-now-success",data=>{
+    socket.emit('joinroom',{user:data.playerX,room:data.id,time:data.time});
+    socket.emit('joinroom',{user:data.playerO,room:data.id,time:data.time});
+    historyRoute.push(`/board/${data.id}`);
   })
 
   if(boardInfo)
@@ -132,14 +147,23 @@ export default function ListBoard(props) {
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <h2 style={{display:'inline-block',marginRight:'2%'}}>Play now</h2>
-                <Fab color="primary" aria-label="Play now" className={classes.fab}>
+                { !finding &&
+                <Fab color="primary" aria-label="Play now" className={classes.fab} onClick={findPlayer}>
                   <SportsEsportsIcon/>
                 </Fab>
+                }
+                {
+                finding &&
+                <Fab color="secondary" aria-label="Play now" className={classes.fab} onClick={cancelFindPlayer}>
+                  <CancelIcon/>
+                </Fab>
+                }
+                {finding && <div><h4>Finding... </h4><CircularProgress/></div>}
               </Grid>
 
               <Grid item xs={12} md={6}>
                 <h2 style={{display:'inline-block',marginRight:'2%'}}>Play with room ID</h2>
-                <Fab color="primary" aria-label="Play now" className={classes.fab} onClick={handleClickOpenJoinRoom}>
+                <Fab color="primary" aria-label="Play with room ID" className={classes.fab} onClick={handleClickOpenJoinRoom}>
                   <PlayCircleFilledIcon/>
                 </Fab>
                 <JoinRoomWithID 
