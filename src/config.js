@@ -5,6 +5,14 @@ var exports_1 = {
 };
 
 // These exports are for uploading to heroku
+var exports_remote = {
+    'client-domain': '//localhost:3001/',
+    'server-domain': 'https://caro-online-api-client.herokuapp.com/'
+};
 
+var exports_final = {
+    'client-domain': 'https://caro-online-client.firebaseapp.com/',
+    'server-domain': 'https://caro-online-api-client.herokuapp.com/'
+};
 
-export default exports_1;
+export default exports_final;
