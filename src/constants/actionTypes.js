@@ -43,6 +43,8 @@ class ActionType extends Component {
     static END_GAME = "END_GAME";
 
     static GET_RANKING = "GET_RANKING";
+
+    static GET_HISTORY = "GET_HISTORY";
 }
 
 export default ActionType;

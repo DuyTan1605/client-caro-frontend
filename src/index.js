@@ -19,6 +19,8 @@ import Forgot from "./components/forgot/forgot"
 import ChangePassword from "./components/changePassword/changePassword"
 import Game from "../src/containers/gameContainer"
 import Ranking from "../src/containers/rankingContainer"
+import History from "../src/containers/historyContainer"
+import NotFound from "../src/components/notfound/notfound"
 // Function save state
 
 
@@ -26,49 +28,64 @@ const appRoot = (
     <Router>
         <div>
             <Switch>
-                <Route path='/login'>
+                <Route exact path='/login'>
                     <Provider store={store}>
                         <Login />
                     </Provider>
                 </Route>
-                <Route path='/activate/:id'>
+                <Route exact path='/activate/:id'>
                     <Activate/>
                 </Route>
-                <Route path='/register'>
+                <Route exact path='/register'>
                     <Provider store={store}>
                         <Register />
                     </Provider>
                 </Route>
-                <Route path='/forgot'>
+                <Route exact path='/forgot'>
                    <Forgot/>
                 </Route> 
-                <Route path='/profile'>
+                <Route exact path='/profile'>
                     <Provider store={store}>
                         <Info />
                     </Provider>
                 </Route> 
-                <Route path='/reset/:id'>
+                <Route exact path='/reset/:id'>
                    <ChangePassword/>
                 </Route> 
 
-                <Route path='/board/:id'>
+                <Route exact path='/board/:id'>
                     <Provider store={store}>
                             <Game/>
                     </Provider>
                 </Route> 
 
-                <Route path='/ranking'>
+                <Route exact path='/ranking'>
                     <Provider store={store}>
                         <Ranking />
                     </Provider>
                 </Route> 
                 
-                <Route path={['/','/home']}>
+                <Route exact path='/history'>
+                    <Provider store={store}>
+                        <History />
+                    </Provider>
+                </Route> 
+
+                {/* <Route exact path='/historyDetail/:id'>
+                    <Provider store={store}>
+                            <HistoryDetail/>
+                    </Provider>
+                </Route>  */}
+
+                <Route exact path={['/','/home']}>
                     <Provider store={store}>
                         <Homepage />
                     </Provider>
                 </Route>
 
+                <Route>
+                    <NotFound/>
+                </Route>
                 
               
                 

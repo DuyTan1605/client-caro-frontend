@@ -124,6 +124,7 @@ export default function ListBoard(props) {
 
   const cancelFindPlayer = ()=>{
     setFinding(false);
+    socket.emit("cancelFindPlayer",JSON.parse(localStorage.getItem('user')));
   }
 
   socket.on("listBoard",data=>{

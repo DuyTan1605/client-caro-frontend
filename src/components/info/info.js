@@ -211,7 +211,7 @@ export default function Infor(props) {
                     fullWidth variant="filled" />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <TextField disabled id="percentWin" label="Percent win" defaultValue={info.percent_win} fullWidth variant="filled" />
+                    <TextField disabled id="percentWin" label="Percent win" defaultValue={(info.percent_win*100).toFixed(2)+"%"} fullWidth variant="filled" />
                   </Grid>
                 </Grid>
               </Grid>

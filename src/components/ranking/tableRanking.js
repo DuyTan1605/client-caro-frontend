@@ -74,6 +74,7 @@ function EnhancedTableHead(props) {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
+          style={{fontWeight:'bolder'}}
             key={headCell.id}
             align={headCell.id == 'name'?'left': 'center'}
             padding={headCell.disablePadding ? 'none' : 'default'}
@@ -171,7 +172,7 @@ EnhancedTableToolbar.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    margin: '2% 2%'
   },
   paper: {
     width: '100%',
@@ -284,7 +285,7 @@ export default function EnhancedTable(props) {
                       </TableCell>
                       <TableCell align="center">{row.total_match}</TableCell>
                       <TableCell  align="center">{row.total_win}</TableCell>
-                      <TableCell  align="center">{row.percent_win}</TableCell>
+                      <TableCell  align="center">{(row.percent_win * 100).toFixed(2)} %</TableCell>
                       <TableCell  align="center">{row.point}</TableCell>
                       <TableCell  align="center">{row.rank}</TableCell>
                     </TableRow>

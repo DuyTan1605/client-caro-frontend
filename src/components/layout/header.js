@@ -31,6 +31,7 @@ import Drawer from '@material-ui/core/Drawer';
 import MenuIcon from '@material-ui/icons/Menu';
 import ListItemText from '@material-ui/core/ListItemText';
 import DesktopMenu from "./menu"
+import HistoryIcon from '@material-ui/icons/History';
 //import {socket} from "../../helpers/socket"
 
 
@@ -202,7 +203,7 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMenuClose}
     >
       <Link to={"/profile"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><AccountCircleIcon/> Your Profile</MenuItem></Link>
-      {/* <MenuItem onClick={handleMenuClose}>Funretro Feedback</MenuItem> */}
+      <Link to={"/history"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><HistoryIcon/> History</MenuItem></Link>
       <Link to={"/login"} style={{color:"black",textDecoration:"none"}} onClick={logOut}><MenuItem onClick={handleMenuClose}><ExitToAppIcon/> Logout</MenuItem></Link>
     </Menu>
     
@@ -220,7 +221,7 @@ export default function PrimarySearchAppBar(props) {
       onClose={handleMobileMenuClose}
     >
        <Link to={"/profile"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><AccountCircleIcon/> Your Profile</MenuItem></Link>
-      {/* <MenuItem onClick={handleMenuClose}>Funretro Feedback</MenuItem> */}
+       <Link to={"/history"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><HistoryIcon/> History</MenuItem></Link>
       <Button style={{color:"black",textDecoration:"none",textTransform:"none"}} onClick={logOut}><MenuItem onClick={handleMenuClose}><ExitToAppIcon/> Logout</MenuItem></Button>
     </Menu>
   );

@@ -49,7 +49,8 @@ class Config extends Component {
         winner: null,
         countDown: false,
         endGame : false,
-        rankingInfo : null
+        rankingInfo : null,
+        historyInfo: null
     };
 }
 
