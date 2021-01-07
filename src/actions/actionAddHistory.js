@@ -10,7 +10,7 @@ export function actionAddHistory(status, message) {
     };
 }
 
-export default function fetchAddHistory(board,winner,loser,data,chat,type) {
+export default function fetchAddHistory(board,winner,loser,data,chat,type,winnerType,loserType,date) {
 
     
     return dispatch => {
@@ -33,7 +33,10 @@ export default function fetchAddHistory(board,winner,loser,data,chat,type) {
                loser,
                data,
                chat,
-               type
+               type,
+               winnerType,
+               loserType,
+               date
             })
         })
         .then(

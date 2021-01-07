@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import DefaultLayout from "../layout/defaultLayout"
 import CountDown from "./countDown"
 import WaitingRoom from "./waitingRoom"
+import {getDate} from "../../helpers/helper"
 
 function Game(props) {
     let historyRouter = useHistory();
@@ -144,8 +145,10 @@ function Game(props) {
         {
             const winnerId = props.nextMove == "O" ? props.roomInfo.playerX.id : props.roomInfo.playerO.id;
             const loserId = winnerId == props.roomInfo.playerO.id ? props.roomInfo.playerX.id : props.roomInfo.playerO.id;
+            const winnerType = props.nextMove == "O" ? "X" : "O";
+            const loserType = winnerType == "O" ? "X" : "O";
             socket.emit("endgame",{winnerId,loserId});
-            actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,props.history,props.chatHistory,"normal");
+            actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,props.history,props.chatHistory,"normal",winnerType,loserType,getDate());
         }
 
         console.log("End game: ",props);
@@ -445,8 +448,10 @@ function Game(props) {
                 {
                     const winnerId = _nextMove == "O" ? props.roomInfo.playerX.id :props.roomInfo.playerO.id;
                     const loserId = _nextMove == "O" ? props.roomInfo.playerO.id :props.roomInfo.playerX.id;
+                    const winnerType = _nextMove == "O" ? "X" : "O";
+                    const loserType = winnerType == "O" ? "X" : "O";
                     //console.log(winnerId,loserId,_history,props.chatHistory);
-                    actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,_history,props.chatHistory,"normal");
+                    actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,_history,props.chatHistory,"normal",winnerType,loserType,getDate());
                 }
             }
             // Call action
@@ -542,7 +547,9 @@ function Game(props) {
                 if(winnerId)
                 {
                     const loserId = (winnerId == roomInfo.playerX.id) ? roomInfo.playerO.id : roomInfo.playerX.id;
-                    actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,props.history,props.chatHistory,"surrender");
+                    const winnerType = winnerId == roomInfo.playerX.id ? "X" : "O";
+                    const loserType = winnerType == "O" ? "X" : "O";
+                    actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,props.history,props.chatHistory,"surrender",winnerType,loserType,getDate());
                 }
             }, () => {
                 socket.emit('surrender-result', {
@@ -570,7 +577,9 @@ function Game(props) {
                     message: 'yes'
                 });
                 actions.actionRequest(true, `Đã thống nhất hoà nhau !`);
-                actions.actionAddHistory(roomInfo.id,roomInfo.playerO.id,roomInfo.playerX.id,props.history,props.chatHistory,"draw");
+                const winnerType = userInfo.id == roomInfo.playerO.id ? "O" : "X";
+                const loserType = winnerType == "O" ? "X" : "O";
+                actions.actionAddHistory(roomInfo.id,roomInfo.playerO.id,roomInfo.playerX.id,props.history,props.chatHistory,"draw",winnerType,loserType,getDate());
             }, () => {
                 socket.emit('ceasefire-result', {
                     message: 'no'

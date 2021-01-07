@@ -29,6 +29,9 @@ export default function StickyHeadTable(props) {
                             <Game 
                             gameHistory={JSON.parse(historyDetail[0].data)}  
                             competitorName={historyDetail[0].competitorName}
+                            winnerId={historyDetail[0].winnerId}
+                            winnerType={historyDetail[0].winnerType}
+                            loserType={historyDetail[0].loserType}
                             finalResult = {historyDetail[0].type == "draw" ? "Draw" : (historyDetail[0].winner == historyDetail[0].competitorId ? "Lose" : "Win")}
                             />
                         </Grid>

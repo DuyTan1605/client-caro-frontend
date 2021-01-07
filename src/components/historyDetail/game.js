@@ -6,7 +6,7 @@ import RenderStep from "./renderStep"
 import { render } from "@testing-library/react";
 export default function Game(props)
 {
-    //console.log(props);
+    console.log(props);
     const [nowStep,setNowStep] = useState(0);
 
     const [current,setCurrent]=useState(props.gameHistory[0]);
@@ -20,6 +20,9 @@ export default function Game(props)
                     <Card className='card'>
                         <Card.Body className='card-body'>
                             <Card.Title className='card-title'>Bạn</Card.Title>
+                            <Card.Title className='card-title'>
+                                {JSON.parse(localStorage.getItem("user")).id == props.winnerId ? props.winnerType : props.loserType}
+                            </Card.Title>
                             <Card.Text className='card-text-bold'><b>{JSON.parse(localStorage.getItem("user")).name}</b></Card.Text>
                         </Card.Body>
                     </Card>
@@ -28,6 +31,9 @@ export default function Game(props)
                     <Card className='card'>
                             <Card.Body className='card-body'>
                                 <Card.Title className='card-title'>Đối thủ</Card.Title>
+                                <Card.Title className='card-title'>
+                                {JSON.parse(localStorage.getItem("user")).id == props.winnerId ? props.loserType : props.winnerType}
+                                 </Card.Title>
                                 <Card.Text className='card-text-bold'><b>{props.competitorName}</b></Card.Text>
                             </Card.Body>
                     </Card>

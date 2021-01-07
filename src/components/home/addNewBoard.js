@@ -74,7 +74,7 @@ export default function FormDialog(props) {
               label="Time for one step(>=10s)"
               name="time"  
               value={timeOneStep}
-              validators={['minNumber:10', 'maxNumber:255', 'matchRegexp:^[0-9]$']}
+              validators={['minNumber:10', 'maxNumber:255']}
               errorMessages={["Time must be valid"]}
               autoFocus
               onChange={(e)=>setTimeOneStep(e.target.value)}
