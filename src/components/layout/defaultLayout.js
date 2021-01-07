@@ -4,7 +4,7 @@ import Footer from "./footer"
 
 export default function defaultLayout(props) {
     const userInfo = JSON.parse(localStorage.getItem("user"));
-    console.log(props);
+    //console.log(props);
     return (
         <div style={{ "overflow": "hidden" }}>
             <Header refresh={props.refresh}/>

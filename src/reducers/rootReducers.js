@@ -8,6 +8,7 @@ import boardReducers from './boardReducers'
 import gameReducers from "./gameReducers"
 import rankingReducers from "./rankingReducers"
 import historyReducers from "./historyReducers"
+import historyDetailReducers from "./historyDetailReducers"
 const rootReducers = combineReducers({
     gameReducers,
     loginReducers,
@@ -16,7 +17,8 @@ const rootReducers = combineReducers({
     roomReducers,
     boardReducers,
     rankingReducers,
-    historyReducers
+    historyReducers,
+    historyDetailReducers
 });
 
 export default rootReducers;

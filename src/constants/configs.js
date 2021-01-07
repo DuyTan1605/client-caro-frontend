@@ -50,7 +50,8 @@ class Config extends Component {
         countDown: false,
         endGame : false,
         rankingInfo : null,
-        historyInfo: null
+        historyInfo: null,
+        historyDetail: null
     };
 }
 

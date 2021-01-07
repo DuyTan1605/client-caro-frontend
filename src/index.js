@@ -20,6 +20,7 @@ import ChangePassword from "./components/changePassword/changePassword"
 import Game from "../src/containers/gameContainer"
 import Ranking from "../src/containers/rankingContainer"
 import History from "../src/containers/historyContainer"
+import HistoryDetail from "./containers/historyDetailContainer"
 import NotFound from "../src/components/notfound/notfound"
 // Function save state
 
@@ -71,11 +72,11 @@ const appRoot = (
                     </Provider>
                 </Route> 
 
-                {/* <Route exact path='/historyDetail/:id'>
+                <Route exact path='/historyDetail/:id'>
                     <Provider store={store}>
                             <HistoryDetail/>
                     </Provider>
-                </Route>  */}
+                </Route> 
 
                 <Route exact path={['/','/home']}>
                     <Provider store={store}>

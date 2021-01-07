@@ -3,31 +3,6 @@ import Config from '../constants/configs';
 
 export default function handleGetHistory(state = Config.initialState, action) {
     switch (action.type) {
-        case ActionType.GET_HISTORY:
-            if (action.status === 'REQUEST') {
-                return {
-                    ...state,
-                    isFetching: true,
-                    historyInfo: null,
-                }
-            }
-            else if (action.status === 'FAILED') {
-                return {
-                    ...state,
-                    isFetching: false,
-                    historyInfo: null
-                }
-            }
-            else if (action.status === 'SUCCESS') {
-                return {
-                    ...state,
-                    isFetching: false,
-                    historyInfo: action.historyInfo
-                }
-            }
-            else {
-                return state;
-            }
         
         case ActionType.GET_HISTORY_DETAIL:
             if (action.status === 'REQUEST') {
@@ -59,9 +34,9 @@ export default function handleGetHistory(state = Config.initialState, action) {
             return Config.initialState;
 
         default:
-            {
-                //console.log(state)
-                return state;
-             }
+        {
+            //console.log(state)
+            return state;
+        }
     }
 }

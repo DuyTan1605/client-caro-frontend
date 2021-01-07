@@ -23,7 +23,7 @@ export default function FormDialog(props) {
  
   const classes = useStyles();
   const [boardName, setboardName] = useState("");
-  const [timeOneStep, setTimeOneStep] = useState(5);
+  const [timeOneStep, setTimeOneStep] = useState(10);
   const [password,setPassword] = useState("");
   const [checkPassword,setCheckPassowrd] = useState(false);
   const handleClose = () => {
@@ -71,10 +71,10 @@ export default function FormDialog(props) {
               margin="normal"
               fullWidth
               id="time"
-              label="Time for one step(>=5s)"
+              label="Time for one step(>=10s)"
               name="time"  
               value={timeOneStep}
-              validators={['minNumber:5', 'maxNumber:255', 'matchRegexp:^[0-9]$']}
+              validators={['minNumber:10', 'maxNumber:255', 'matchRegexp:^[0-9]$']}
               errorMessages={["Time must be valid"]}
               autoFocus
               onChange={(e)=>setTimeOneStep(e.target.value)}

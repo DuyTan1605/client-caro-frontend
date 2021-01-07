@@ -10,6 +10,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom'
+import {useHistory} from "react-router-dom"
 const columns = [
     { id: 'code', label: 'ID Game', minWidth: 100 },
   { id: 'name', label: "Game's Name", minWidth: 170 },
@@ -63,6 +64,7 @@ export default function StickyHeadTable(props) {
         "/historyDetail/"+history.id
         );
     }))
+  const history = useHistory();
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -99,7 +101,6 @@ export default function StickyHeadTable(props) {
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map((column,index) => {
                     const value = row[column.id];
-                    console.log(column.id)
                     return (
                       <TableCell key={column.id+index} align={column.align} 
                       style={{
@@ -108,11 +109,11 @@ export default function StickyHeadTable(props) {
                         (column.id == "result" && value == "Draw"?"orange":"black")),
                         fontWeight: column.id == "result" ? "bolder": 'normal' }}>
                         {column.id == "detail"? 
-                        <Link to={value}>
+                        <a href={value}>
                             <Button variant="contained" color="primary" style={{textTransform:'none'}}>
                                 Detail
                             </Button>
-                        </Link> 
+                        </a> 
                         : value}
                       </TableCell>
                     );

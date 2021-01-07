@@ -22,7 +22,7 @@ export default function footer()
     return (
         <footer className={classes.footer}>
           <Typography variant="h6" align="center" gutterBottom>
-            Footer
+            K17 - FIT HCMUS
           </Typography>
       </footer>
     )
