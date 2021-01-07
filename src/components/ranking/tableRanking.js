@@ -54,10 +54,10 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: false, label: 'User' },
-  { id: 'total_match', numeric: true, disablePadding: false, label: 'Số trận đã chơi' },
-  { id: 'total_win', numeric: true, disablePadding: false, label: 'Số trận thắng' },
-  { id: 'percent_win', numeric: true, disablePadding: false, label: 'Tỷ lệ thắng' },
-  { id: 'point', numeric: true, disablePadding: false, label: 'Số cúp' },
+  { id: 'total_match', numeric: true, disablePadding: false, label: 'Total match' },
+  { id: 'total_win', numeric: true, disablePadding: false, label: 'Total win' },
+  { id: 'percent_win', numeric: true, disablePadding: false, label: 'Percent win' },
+  { id: 'point', numeric: true, disablePadding: false, label: 'Total cup' },
   { id: 'rank', numeric: true, disablePadding: false, label: 'Rank' },
 ];
 

@@ -14,7 +14,7 @@ export default function fetchLogin(username, password) {
 
     return dispatch => {
   
-        dispatch(actionLogin('REQUEST', 'Xin vui lòng đợi...'));
+        dispatch(actionLogin('REQUEST', 'Please waiting for a moment...'));
 
         return fetch(config['server-domain'] + 'users/login', {
             method: 'POST',
@@ -31,7 +31,7 @@ export default function fetchLogin(username, password) {
             response => response.json(),
             error => {
                 console.log('An error occurred.', error);
-                dispatch(actionLogin('FAILED', 'Đã có lỗi xảy ra, vui lòng thử lại'));
+                dispatch(actionLogin('FAILED', 'Error ! Please try again'));
             }
         )
         .then(json => {
@@ -49,7 +49,7 @@ export default function fetchLogin(username, password) {
             }
         })
         .catch(err => {
-            dispatch(actionLogin('FAILED', 'Đã có lỗi xảy ra, vui lòng thử lại'));
+            dispatch(actionLogin('FAILED', 'Error ! Please try again'));
         })
     }
   }

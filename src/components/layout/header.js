@@ -252,7 +252,7 @@ export default function PrimarySearchAppBar(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Bảng xếp hạng'].map((text, index) => (
+        {['Ranking'].map((text, index) => (
           <Link key={index} to ="/ranking">
           <ListItem button >
             <ListItemText primary={text} />
@@ -301,18 +301,18 @@ export default function PrimarySearchAppBar(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Lời mời tham gia phòng chơi"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"New Invitation"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-              {sender} muốn mời bạn tham gia phòng chơi {gameID}
+              {sender} want to invite you to join {gameID}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleAccept} color="primary">
-            Đồng ý
+            Accept
           </Button>
           <Button onClick={handleReject} color="primary" autoFocus>
-            Từ chối
+            Reject
           </Button>
         </DialogActions>
       </Dialog>
@@ -326,15 +326,15 @@ export default function PrimarySearchAppBar(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Từ chối tham gia phòng chơi"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Reject join room"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-              {sender} từ chối tham gia phòng chơi {gameID}
+              {sender} has rejected join {gameID}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={()=>setOpenSender(false)} color="primary">
-            Đồng ý
+            Accept
           </Button>
         </DialogActions>
       </Dialog>

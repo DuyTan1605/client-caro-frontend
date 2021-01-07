@@ -12,14 +12,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import BackgroundLogin from "../../images/caro_background.png"
 import BackgroundLoginSm from "../../images/caro_background_sm.png"
 import Logo from "../../images/login_icon.png"
-import GoogleLogin from 'react-google-login'
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import {useDispatch,useSelector} from "react-redux"
-import {login} from "../../actions/auth.actions";
 import Alert from '@material-ui/lab/Alert';
-import { CLEAR_MESSAGE } from '../../actions/type';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import {loginWithSocial} from "../../actions/auth.actions"
 //import {socket} from "../../helpers/socket"
 import config from "../../../src/config"
 const useStyles = makeStyles((theme) => ({
@@ -112,7 +107,7 @@ export default function Login(props) {
 
   }
 
-  if(localStorage.getItem("token"))
+  if(localStorage.getItem("token") && JSON.parse(localStorage.getItem("user")).activate)
   {
       window.location.href="/home";
   }

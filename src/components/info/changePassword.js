@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 // import Container from '@material-ui/core/Container';
 // import {update} from "../../actions/auth";
 import Alert from '@material-ui/lab/Alert';
-// import { CLEAR_MESSAGE } from '../../actions/type';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -62,7 +61,7 @@ export default function Diaglog(props)
                 setalertCurrentPassword(true);
                 return;
             }
-            props.onsubmit();
+            props.onsubmit(e);
         }
        
       }
@@ -133,7 +132,7 @@ export default function Diaglog(props)
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleChangePassword} type="button" color="primary" autoFocus>
+          <Button onClick={(e)=>handleChangePassword(e)} type="button" color="primary" autoFocus>
            Confirm
           </Button>
         </DialogActions>

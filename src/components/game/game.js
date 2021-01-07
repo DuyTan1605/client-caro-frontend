@@ -82,14 +82,14 @@ function Game(props) {
 
     // Setup board game
     const current = history[stepNumber];
-    const sortMode = accendingMode ? `Nước đi tăng dần` : `Nước đi giảm dần`;
+    const sortMode = accendingMode ? `Accending turn` : `Descending turn`;
     const moves = [];
 
     history.map((step, move) => {
-        const content = move ? `Về lượt #${
+        const content = move ? `Go to #${
             Config.makeTwoDigits(move)}:
             (${Config.makeTwoDigits(history[move].x)},${Config.makeTwoDigits(history[move].y)})`
-        : `Chơi lại !`;
+        : `Play again !`;
         const variant = (move === stepNumber) ? `danger` : `success`;
         
         // Get current move
@@ -176,7 +176,7 @@ function Game(props) {
                         <Card className='card'>
                             <Card.Body className='card-body' 
             style={{background : ((winCells && nextMove == "O") || (winnerBg == roomInfo.playerX.id)) ? "#80ff80" : (winnerBg=="draw"? "#ffd699": "")}}>
-                                <Card.Title className='card-title'>{userInfo.id == roomInfo.playerX.id ? "Bạn": userInfo.id == roomInfo.playerO.id ? "Đối thủ":"Role"}: X </Card.Title>
+                                <Card.Title className='card-title'>{userInfo.id == roomInfo.playerX.id ? "You": userInfo.id == roomInfo.playerO.id ? "Opponent":"Role"}: X </Card.Title>
                                 <Card.Text className='card-text-bold'><b>{Xname}</b></Card.Text>
                                 <Card.Text className='card-text-bold'><b>{roomInfo.playerX.status}</b></Card.Text>
                                 <img src={avatarSrc} className='avatar-small' alt='avatar'/><br></br>
@@ -189,7 +189,7 @@ function Game(props) {
                         <Card className='card'>
                             <Card.Body className='card-body' 
                          style={{background :((winCells && nextMove == "X") || (winnerBg == roomInfo.playerO.id)) ? "#80ff80" : (winnerBg=="draw"? "#ffd699": "")}}>
-                                <Card.Title className='card-title'>{userInfo.id == roomInfo.playerO.id ? "Bạn":userInfo.id == roomInfo.playerX.id ? "Đối thủ":"Role"} : O  </Card.Title>
+                                <Card.Title className='card-title'>{userInfo.id == roomInfo.playerO.id ? "You":userInfo.id == roomInfo.playerX.id ? "Opponent":"Role"} : O  </Card.Title>
                                 <Card.Text className='card-text-bold'><b>{rivalname}</b></Card.Text>
                                 <Card.Text className='card-text-bold'><b>{roomInfo.playerO.status}</b></Card.Text>
                                 <img src={rivalAvatarSrc} className='avatar-small' alt='rivalAvatar'/><br></br>
@@ -206,10 +206,10 @@ function Game(props) {
                         <Button className='logout-button' variant='info' onClick={() => goHome()}>Trang chủ</Button>&nbsp;&nbsp;
                         <Button className='logout-button' variant='info' onClick={() => requestSurrender()}
                                         style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}
-                                        disabled={needToDisable }>Đầu hàng</Button>&nbsp;&nbsp;
+                                        disabled={needToDisable }>Surrender</Button>&nbsp;&nbsp;
                         <Button className='logout-button' variant='info' onClick={() => requestCeasefire()}
                                 style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}
-                                disabled={needToDisable }>Xin hoà</Button>
+                                disabled={needToDisable }>Draw</Button>
                     </div>
                     {/* <div> */}
                         {/* Change sort mode */}
@@ -507,11 +507,11 @@ function Game(props) {
             actions.actionEndGame(true);
              if(userInfo.id == data.winnerId)
             {
-                actions.actionRequest(true, `Đối thủ hết thời gian, bạn đã chiến thắng !`);
+                actions.actionRequest(true, `You opponent's turn out of time, you win !`);
             }
             if(userInfo.id == data.loserId)
             {  
-                actions.actionRequest(true, `Hết thời gian, bạn đã thất bại !`);
+                actions.actionRequest(true, `Time out! You lose`);
             }
             actions.actionAddWinner(data.winnerId);
         })
@@ -536,9 +536,9 @@ function Game(props) {
         })
         // Surrender / Ceasefire
         socket.on('surrender-request', function (data) {
-            doConfirm('Đối thủ muốn đầu hàng ván này !', () => {
+            doConfirm('Your opponent wants to surrender.Do you accept?', () => {
                 
-                actions.actionRequest(true, `Chúc mừng bạn đã giành chiến thắng !`);
+                actions.actionRequest(true, `Congratulations! You win`);
                 const winnerId = (userInfo.id == roomInfo.playerX.id || userInfo.id == roomInfo.playerO.id) ? userInfo.id : null;
                 socket.emit('surrender-result', {
                     message: 'yes',
@@ -561,22 +561,22 @@ function Game(props) {
         socket.on('surrender-result', function (data) {
             if (data.message === `yes`) {
                 const winnerId = userInfo.id == roomInfo.playerX.id ? roomInfo.playerO.id : roomInfo.playerX.id;
-                actions.actionRequest(true, `Bạn đã chấp nhận thua cuộc !`);
+                actions.actionRequest(true, `Opps ! You lose`);
                 if (!data.noAlert) {
-                    dialog.showAlert(`Đối thủ đã chấp nhận lời đầu hàng!`);
+                    dialog.showAlert(`Your opponent has accepted your surrdering request!`);
                 }
             }
             else {
                 actions.actionRequest(false, null);
-                dialog.showAlert(`Đối thủ đã từ chối lời đầu hàng!`);
+                dialog.showAlert(`Your opponent has rejected your surrdering request!`);
             }
         });
         socket.on('ceasefire-request', function (data) {
-            doConfirm('Đối thủ muốn xin hoà ván này !', () => {
+            doConfirm('Your opponent wants to draw.Do you accept?', () => {
                 socket.emit('ceasefire-result', {
                     message: 'yes'
                 });
-                actions.actionRequest(true, `Đã thống nhất hoà nhau !`);
+                actions.actionRequest(true, `Great! This game is draw`);
                 const winnerType = userInfo.id == roomInfo.playerO.id ? "O" : "X";
                 const loserType = winnerType == "O" ? "X" : "O";
                 actions.actionAddHistory(roomInfo.id,roomInfo.playerO.id,roomInfo.playerX.id,props.history,props.chatHistory,"draw",winnerType,loserType,getDate());
@@ -589,20 +589,20 @@ function Game(props) {
         });
         socket.on('ceasefire-result', function (data) {
             if (data.message === 'yes') {
-                actions.actionRequest(true, `Đã thống nhất hoà nhau !`);
+                actions.actionRequest(true, `Great! This game is draw`);
                 if (!data.noAlert) {
-                    dialog.showAlert(`Đối thủ đã chấp nhận hoà!`);
+                    dialog.showAlert(`Your opponent has accepted your drawing request!`);
                 }
             }
             else {
                 actions.actionRequest(false, null);
-                dialog.showAlert(`Đối thủ đã từ chối hoà!`);
+                dialog.showAlert(`Your opponent has rejected your drawing request`);
             }
         });
 
         // Undo / Redo
         socket.on('undo-request', function (data) {
-            doConfirm(`Đối thủ muốn quay về lượt #${data.stepNumber}: (${data.x},${data.y}) !`, () => {
+            doConfirm(`Your opponent want to return turn #${data.stepNumber}: (${data.x},${data.y}). Do you accept?`, () => {
                 socket.emit('undo-result', {
                     message: 'yes',
                     stepNumber: data.stepNumber
@@ -618,18 +618,18 @@ function Game(props) {
             if (data.message === `yes`) {
                 jumpTo(data.stepNumber);
                 if (!data.noAlert) {
-                    dialog.showAlert(`Đối thủ đã đồng ý!`);
+                    dialog.showAlert(`Your opponent has accepted!`);
                 }
             }
             else {
-                dialog.showAlert(`Đối thủ không đồng ý!`);
+                dialog.showAlert(`Your opponent has rejected!`);
             }
             actions.actionRequest(false, null);
         });
 
         // Play again
         socket.on('play-again-request', function (data) {
-            doConfirm('Đối thủ muốn chơi lại !', () => {
+            doConfirm('Your opponent want to play again. Do you accept ?', () => {
                 actions.actionResetGame(isPlayerX ? Config.xPlayer : Config.oPlayer);
                 socket.emit('play-again-result', {
                     message: 'yes'
@@ -644,11 +644,11 @@ function Game(props) {
             if (data.message === 'yes') {
                 actions.actionResetGame(isPlayerX ? Config.oPlayer : Config.xPlayer);
                 if (!data.noAlert) {
-                    dialog.showAlert(`Đối thủ đã đồng ý!`);
+                    dialog.showAlert(`Your opponent has accepted!`);
                 }
             }
             else {
-                dialog.showAlert(`Đối thủ không đồng ý!`);
+                dialog.showAlert(`Your opponent has rejected!`);
             }
         });
 
@@ -713,7 +713,7 @@ function Game(props) {
 
     function doConfirm(message, callbackYes, callbackNo) {
         dialog.show({
-            title: 'Xác nhận',
+            title: 'Acception',
             body: message,
             actions: [
                 Dialog.CancelAction(() => callbackNo()),
@@ -725,25 +725,25 @@ function Game(props) {
     }
 
     function requestSurrender() {
-        doConfirm('Bạn muốn đầu hàng ván này ?', () => {
+        doConfirm('Do you want to surrender ?', () => {
             socket.emit('surrender-request', userInfo.username);
-            actions.actionRequest(true, `... Đang chờ đối thủ trả lời ...`);
+            actions.actionRequest(true, `... Wating opponent's response ...`);
         }, () => {});
     }
 
     function requestCeasefire() {
-        doConfirm('Bạn muốn xin hoà ván này ?', () => {
+        doConfirm('Do you want to draw ?', () => {
             socket.emit('ceasefire-request', userInfo.username);
-            actions.actionRequest(true, `... Đang chờ đối thủ trả lời ...`);
+            actions.actionRequest(true, `... Wating opponent's response ...`);
         }, () => {});
     }
 
     function requestUndo(stepNumber) {
 
         if (stepNumber === 0) {
-            doConfirm('Bạn muốn chơi lại ?', () => {
+            doConfirm('Do you want to play again ?', () => {
                 socket.emit('play-again-request', '');
-                actions.actionRequest(true, `..! Đang chờ đối thủ đồng ý !..`);
+                actions.actionRequest(true, `... Wating opponent's response ...`);
             }, () => {});
             return;
         }
@@ -762,9 +762,9 @@ function Game(props) {
             request.nextY = history[stepNumber + 1].y;
         }
 
-        doConfirm('Bạn muốn quay về lượt này ?', () => {
+        doConfirm('Do you want to return this turn ?', () => {
             socket.emit('undo-request', request);
-            actions.actionRequest(true, `... Đang chờ đối thủ trả lời ...`);
+            actions.actionRequest(true, `... Wating opponent's response ...`);
         }, () => {});
     }
 

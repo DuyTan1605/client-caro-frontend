@@ -18,7 +18,7 @@ export default function fetchChangePassword(oldPassword,newPassword) {
         const token = localStorage.getItem('token');
         const bearerToken = 'Bearer ' + token;
     
-        dispatch(actionChangePassword('REQUEST', 'Xin vui lòng đợi...'));
+        dispatch(actionChangePassword('REQUEST', 'Please waiting for a moment...'));
     
         return fetch(config['server-domain'] + 'users/changePasswordFromProfile', {
             method: 'POST',
@@ -36,7 +36,7 @@ export default function fetchChangePassword(oldPassword,newPassword) {
             response => response.json(),
             error => {
                 console.log('An error occurred.', error);
-                dispatch(actionChangePassword('FAILED', 'Đã có lỗi xảy ra, vui lòng thử lại'));
+                dispatch(actionChangePassword('FAILED', 'Error ! Please try again'));
             }
         )
         .then(json => {

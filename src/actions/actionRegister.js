@@ -14,7 +14,7 @@ export default function fetchRegister(name, password, email) {
 
     return dispatch => {
 
-        dispatch(actionRegister('REQUEST', 'Xin vui lòng đợi...'));
+        dispatch(actionRegister('REQUEST', 'Please waiting for a moment...'));
 
         return fetch(config['server-domain'] + 'users/register', {
             method: 'POST',
@@ -32,14 +32,14 @@ export default function fetchRegister(name, password, email) {
             response => response.json(),
             error => {
                 console.log('An error occurred.', error);
-                dispatch(actionRegister('FAILED', 'Đã có lỗi xảy ra, vui lòng thử lại'));
+                dispatch(actionRegister('FAILED', 'Error! Please try again'));
             }
         )
         .then(json => {
             dispatch(actionRegister('SUCCESS', json.message));
         })
         .catch(err => {
-            dispatch(actionRegister('FAILED', 'Đã có lỗi xảy ra, vui lòng thử lại'));
+            dispatch(actionRegister('FAILED', 'Error ! Please try again'));
         })
     }
   }

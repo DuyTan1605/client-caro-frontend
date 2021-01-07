@@ -32,10 +32,6 @@ const routes=[
         path: ['/board/:id'],
         component: Board
     }
-    // {
-    //     path: ['/changeInfo'],
-    //     component: Board
-    // }
 ]
 
 const history = createBrowserHistory();

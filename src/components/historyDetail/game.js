@@ -19,7 +19,7 @@ export default function Game(props)
                     {/* Our infomation */}
                     <Card className='card'>
                         <Card.Body className='card-body'>
-                            <Card.Title className='card-title'>Bạn</Card.Title>
+                            <Card.Title className='card-title'>You</Card.Title>
                             <Card.Title className='card-title'>
                                 {JSON.parse(localStorage.getItem("user")).id == props.winnerId ? props.winnerType : props.loserType}
                             </Card.Title>
@@ -30,7 +30,7 @@ export default function Game(props)
                     {/* Rival infomation */}
                     <Card className='card'>
                             <Card.Body className='card-body'>
-                                <Card.Title className='card-title'>Đối thủ</Card.Title>
+                                <Card.Title className='card-title'>Competitor</Card.Title>
                                 <Card.Title className='card-title'>
                                 {JSON.parse(localStorage.getItem("user")).id == props.winnerId ? props.loserType : props.winnerType}
                                  </Card.Title>

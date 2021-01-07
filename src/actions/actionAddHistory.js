@@ -18,7 +18,7 @@ export default function fetchAddHistory(board,winner,loser,data,chat,type,winner
         const token = localStorage.getItem('token');
         const bearerToken = 'Bearer ' + token;
 
-        dispatch(actionAddHistory('REQUEST', 'Xin vui lòng đợi...'));
+        dispatch(actionAddHistory('REQUEST', 'Please waiting for a moment...'));
 
         return fetch(config['server-domain'] + 'histories/add', {
             method: 'POST',
@@ -43,7 +43,7 @@ export default function fetchAddHistory(board,winner,loser,data,chat,type,winner
             response => response.json(),
             error => {
                 console.log('An error occurred.', error);
-                dispatch(actionAddHistory('FAILED', 'Đã có lỗi xảy ra, vui lòng thử lại'));
+                dispatch(actionAddHistory('FAILED', 'Error ! Please try again'));
             }
         )
         .then(json => {

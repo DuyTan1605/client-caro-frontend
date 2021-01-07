@@ -8,7 +8,7 @@ import config from "../../config"
 export default function Activate(props)
 {
     const {id:id} = useParams();
-    const [status,setStatus]=useState("WATING FOT ACTIVATE YOUR ACCOUNT...");
+    const [status,setStatus]=useState("WATING FOR ACTIVATE YOUR ACCOUNT...");
     var bearerToken = 'Bearer ' + id;
 
     fetch(config['server-domain'] + `activate/${id}`, {
@@ -27,10 +27,19 @@ export default function Activate(props)
     )
     .then(json => {
         setStatus(json.message);
-        window.location.href="/home";
+        setTimeout(() => {
+            window.location.href="/home";
+        }, 3000);
+       
     })
     .catch(err => {
         setStatus("INCORRECT TOKEN OR EXPIRED");
     })
-    return (<center><h1>{status}</h1></center>)
+    return (
+        <div style={{margin:'5%'}}>
+            <center>
+                <h1>{status}</h1>
+            </center>
+        </div>
+    )
 }

@@ -41,6 +41,7 @@ export default function Register(props) {
   const[name, setname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [rePassword,setrePassword] = useState("");
   const [loading, setloading] = useState(false);
  
   const {message,actions}=props;
@@ -110,7 +111,7 @@ export default function Register(props) {
                 Should contain at least 8 chars, 1 number, 1 uppercase, 1 lowercase and 1 special char.
                 </small>
             </Grid>
-            {/* <Grid item xs={12}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
@@ -124,7 +125,7 @@ export default function Register(props) {
                 helperText={(rePassword!=password && rePassword!="") ? 'Please fill confirm password match with password' : ' '}
                 error={rePassword!=password && rePassword!=""}
               />
-            </Grid> */}
+            </Grid>
           </Grid>
           <Button
             type="submit"

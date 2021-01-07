@@ -88,18 +88,6 @@ const appRoot = (
                     <NotFound/>
                 </Route>
                 
-              
-                
-                {/* <Route path='/changeinfo'>
-                    <Provider store={store}>
-                        <Info />
-                    </Provider>
-                </Route>
-                <Route path='/'>
-                    <Provider store={store}>
-                        <Homepage />
-                    </Provider>
-                </Route> */}
             </Switch>
         </div>
     </Router>

@@ -55,7 +55,7 @@ export default function ChangePassword(props) {
     e.preventDefault();
     if(password!=rePassword)
     {
-        setMessage("Mật khẩu nhập lại chưa khớp")
+        setMessage("Confirm password must be similar with password")
     }
     else{
         var bearerToken = 'Bearer ' + id;
@@ -103,7 +103,7 @@ export default function ChangePassword(props) {
                 required
                 fullWidth
                 name="password"
-                label="Mật khẩu mới"
+                label="New passord"
                 type="password"
                 id="password"
                 value={password}
@@ -122,13 +122,14 @@ export default function ChangePassword(props) {
                 required
                 fullWidth
                 name="rePassword"
-                label="Nhập lại mật khẩu mới"
+                label="Confirm password"
                 type="password"
                 id="repassword"
                 value={rePassword}
                 autoComplete="current-password"
                 onChange={(e)=>setrePassword(e.target.value)}
-                inputProps={{pattern:'(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})'}}
+                helperText={(rePassword!=password && rePassword!="") ? 'Please fill confirm password match with password' : ' '}
+                error={rePassword!=password && rePassword!=""}
               />
             </Grid>
           </Grid>

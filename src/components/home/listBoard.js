@@ -2,19 +2,13 @@ import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
-import {useSelector} from "react-redux"
 import AddIcon from '@material-ui/icons/Add';
 import NewBoard from "./addNewBoard";
 import { socket } from '../../helpers/socket';
-import {useDispatch} from "react-redux"
-import {loadAllBoard} from "../../actions/board.actions"
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {CLEAR_MESSAGE} from "../../actions/type"
 import Board from "./board"
-import {addNewBoard} from "../../actions/board.actions"
 import _ from "lodash"
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import store from "../../store"
 import { createBrowserHistory } from "history";
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import JoinRoomWithID from "./joinRoomWithID"
@@ -74,7 +68,7 @@ export default function ListBoard(props) {
   } 
 
   const handleClosePasswordRoom = ()=>{
-    setOpenPasswordRoomRoom(false);
+    setOpenPasswordRoom(false);
     setMessage("");
   } 
 
@@ -88,7 +82,7 @@ export default function ListBoard(props) {
     const pos = _.findIndex(props.boardInfo,{id:parseInt(boardID)});
       if(pos == -1)
       {
-          setMessage("Không tồn tại game có ID là " + boardID);
+          setMessage("Not existed game with ID " + boardID);
       }
       else{
          if(!props.boardInfo[pos].password)
@@ -112,7 +106,7 @@ export default function ListBoard(props) {
         historyRoute.push(`/board/${boardID}`);
       } 
       else{
-        setMessage("Mật khẩu không chính xác");
+        setMessage("Wrong password");
       }
     }
 
@@ -231,7 +225,7 @@ export default function ListBoard(props) {
     }
     return (
         <center>
-            <div className='status'>... ĐANG KẾT NỐI ...</div>
+            <div className='status'>... CONNECTING ...</div>
         </center>
     );
    

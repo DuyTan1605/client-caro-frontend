@@ -7,7 +7,7 @@ export default function MyMenu(props)
     return (
        <nav className="stroke">
             <ul>
-                <li><a href="/ranking">Bảng xếp hạng</a></li>
+                <li><a href="/ranking">Ranking</a></li>
             </ul>
         </nav>
     )

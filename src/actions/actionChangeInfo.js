@@ -17,7 +17,7 @@ export default function fetchChangeInfo(name,email,avatar,type) {
         const token = localStorage.getItem('token');
         const bearerToken = 'Bearer ' + token;
 
-        dispatch(actionChangeInfo('REQUEST', 'Xin vui lòng đợi...'));
+        dispatch(actionChangeInfo('REQUEST', 'Please waiting for a moment...'));
 
         return fetch(config['server-domain'] + 'users/changeinfo', {
             method: 'POST',
@@ -37,7 +37,7 @@ export default function fetchChangeInfo(name,email,avatar,type) {
             response => response.json(),
             error => {
                 console.log('An error occurred.', error);
-                dispatch(actionChangeInfo('FAILED', 'Đã có lỗi xảy ra, vui lòng thử lại'));
+                dispatch(actionChangeInfo('FAILED', 'Error ! Please try again'));
             }
         )
         .then(json => {

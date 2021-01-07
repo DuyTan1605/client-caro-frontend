@@ -137,7 +137,7 @@ export default function CheckboxListSecondary(props) {
             </Grid>
             <Grid item xs={6}>
                 <Button variant="contained" color="primary" style={{textTransform:'none',marginTop:"2%"}} onClick={()=>sendInvitatiton(user.id,user.name)}>
-                    Mời
+                    Invite
                 </Button>
                 <Dialog
                     open={openInvited}
@@ -145,18 +145,18 @@ export default function CheckboxListSecondary(props) {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{"Xác nhận mời người chơi"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{"Invitation"}</DialogTitle>
                     <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Bạn có muốn mời {invitedUser} tham gia phòng chơi {room}
+                        Do you want to invite {invitedUser} join room {room} ?
                     </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                     <Button onClick={handleAccept} color="primary" autoFocus>
-                        Đồng ý
+                        Accept
                     </Button>
                     <Button onClick={handleReject} color="primary">
-                        Từ chối
+                        Reject
                     </Button>
                     </DialogActions>
                 </Dialog>

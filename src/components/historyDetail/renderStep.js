@@ -10,15 +10,19 @@ export default function renderStep(props)
     const changeStep = (step)=>{
         console.log(step);
         const nowGame = props.gameHistory[step];
-        const checkWinRes = checkWin(nowGame.x,nowGame.y,nowGame.squares[nowGame.x][nowGame.y],step);
+        let checkWinRes = null ;
+        if(nowGame.x && nowGame.y)
+        {
+           checkWinRes = checkWin(nowGame.x,nowGame.y,nowGame.squares[nowGame.x][nowGame.y],step);
+        }
         props.changeStep(step,checkWinRes)
     }
 
     const moves = props.gameHistory.map((step, move) => {
-        const content = move ? `Về lượt #${
+        const content = move ? `Go to #${
             Config.makeTwoDigits(move)}:
             (${Config.makeTwoDigits(step.x)},${Config.makeTwoDigits(step.y)})`
-        : `Bắt đầu !`;
+        : `Start !`;
 
         const variant = (move === props.nowStep) ? `danger` : `success`;
                             

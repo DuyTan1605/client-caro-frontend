@@ -78,7 +78,7 @@ export default function CheckboxListSecondary(props) {
         const labelId = `checkbox-list-secondary-label-${value}`;
         return (
           <div key={value}>
-          <Button onClick={handleClickOpen}>
+          <Button style={{textTransform:'none'}} onClick={handleClickOpen}>
           <ListItem>
           <StyledBadge
               overlap="circle"
