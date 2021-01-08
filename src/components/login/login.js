@@ -17,6 +17,8 @@ import Alert from '@material-ui/lab/Alert';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 //import {socket} from "../../helpers/socket"
 import config from "../../../src/config"
+import {useHistory} from "react-router-dom"
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -67,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Login(props) {
+  const history = useHistory();
   const classes = useStyles();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -83,12 +86,14 @@ export default function Login(props) {
   }
 
   const address = window.location.href;
+
   if (address.indexOf('?token=') !== -1) {
       var token = address.substr(address.indexOf('?token=') + '?token='.length);
       if (token.indexOf('#caro_client') !== -1) {
           token = token.substr(0, token.indexOf('#caro_client'));
       }
       localStorage.setItem('token', token);
+     // history.push("/home");
       window.location.href = '/home';
   }
 
@@ -104,12 +109,11 @@ export default function Login(props) {
     //e.preventDefault();
     //setloading(true);
     actions.fetchLogin(email,password);
-
   }
 
-  if(localStorage.getItem("token") && JSON.parse(localStorage.getItem("user")).activate)
+  if(localStorage.getItem("token"))
   {
-      window.location.href="/home";
+    window.location.href = '/home';
   }
 
   return (
