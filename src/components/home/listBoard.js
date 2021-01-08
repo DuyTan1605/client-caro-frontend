@@ -190,7 +190,7 @@ export default function ListBoard(props) {
                       {
                         myBoard.map((board,index)=>{
                           return (
-                          <Grid item xs={3} key={index}>
+                          <Grid item xs={12} md={4} sm={12} key={index}>
                              {/* <Provider store={store}> */}
                                <Board board={board} history={history}/>
                               {/* </Provider> */}
@@ -206,7 +206,7 @@ export default function ListBoard(props) {
                      {
                          otherBoard.map((board,index)=>{
                           return (
-                          <Grid item xs={3} key={index}>
+                          <Grid item xs={12} md={4} sm={12} key={index}>
                              {/* <Provider store={store}> */}
                                 <Board board={board} history={history}/>
                             {/* </Provider> */}

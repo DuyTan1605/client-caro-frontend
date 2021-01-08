@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Button, Card, FormControl } from 'react-bootstrap';
+import { Button, Card, FormControl,Container } from 'react-bootstrap';
 import Dialog from 'react-bootstrap-dialog'
 import Board from './board';
 import Config from '../../constants/configs';
@@ -156,22 +156,12 @@ function Game(props) {
     return (
         <DefaultLayout>
         <div className='App'>
-            <header className='App-header'>
+            {/* <header className='App-header'> */}
                 {/* <img src={logo} className='App-logo' alt='logo' /> */}
-                <div style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
-                    {roomInfo.playerX.id == userInfo.id && nextMove == "X" && !needToDisable &&
-                    <CountDown countDown = {props.countDown} time = {roomInfo.time} endGame = {endGame} needToDisable={needToDisable}/>}
-                    <Status nextMove={nextMove}
-                        winCells={winCells}
-                        rivalname={roomInfo.playerO.name}
-                        messages={message}
-                        isPlayerX={isPlayerX}/>
-                    {roomInfo.playerO.id == userInfo.id &&  nextMove=="O" && !needToDisable &&
-                    <CountDown countDown = {props.countDown} time = {roomInfo.time} endGame = {endGame} needToDisable={needToDisable}/>}
-                </div>
+                
                 <Dialog ref={(el) => setDialog(el)} />
-                <div className='board-game'>
-                    <div>
+                <div className='board-game' style={{overflow:'scroll'}}>
+                    <div className = "flex-item-player" style={{padding:'1%'}}>
                         {/* Our infomation */}
                         <Card className='card'>
                             <Card.Body className='card-body' 
@@ -198,7 +188,20 @@ function Game(props) {
                             </Card.Body>
                         </Card>
                     </div>
-                    <div>
+                    <div className="flex-item-game">
+                    <div 
+                style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
+                    {roomInfo.playerX.id == userInfo.id && nextMove == "X" && !needToDisable &&
+                    <CountDown countDown = {props.countDown} time = {roomInfo.time} endGame = {endGame} needToDisable={needToDisable}/>}
+                    <Status nextMove={nextMove}
+                        winCells={winCells}
+                        rivalname={roomInfo.playerO.name}
+                        messages={message}
+                        isPlayerX={isPlayerX}/>
+                    {roomInfo.playerO.id == userInfo.id &&  nextMove=="O" && !needToDisable &&
+                    <CountDown countDown = {props.countDown} time = {roomInfo.time} endGame = {endGame} needToDisable={needToDisable}/>}
+                </div>
+
                         <Board  winCells={winCells}
                                 squares={current.squares}
                                 currentCell={[current.x, current.y]}
@@ -213,8 +216,8 @@ function Game(props) {
                     </div>
                     {/* <div> */}
                         {/* Change sort mode */}
-                        <div>
-                            <div style={{width:'100%', marginLeft: "30px",display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
+                        <div className ="flex-item-step">
+                            <div style={{width:'100%', display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
                                 <Button className='change-sort-button' onClick={actions.actionChangeSort}>{sortMode}</Button>
                                 <br></br>
                                 <ScrollToBottom className='scroll-view' mode={accendingMode ? `bottom` : `top`}>
@@ -243,7 +246,7 @@ function Game(props) {
                         </Card>
                     </div>
                 </div>
-            </header>
+            {/* </header> */}
         </div>
         </DefaultLayout>
     );
@@ -450,7 +453,6 @@ function Game(props) {
                     const loserId = _nextMove == "O" ? props.roomInfo.playerO.id :props.roomInfo.playerX.id;
                     const winnerType = _nextMove == "O" ? "X" : "O";
                     const loserType = winnerType == "O" ? "X" : "O";
-                    //console.log(winnerId,loserId,_history,props.chatHistory);
                     actions.actionAddHistory(props.roomInfo.id,winnerId,loserId,_history,props.chatHistory,"normal",winnerType,loserType,getDate());
                 }
             }

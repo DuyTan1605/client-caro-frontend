@@ -24,8 +24,7 @@ export default function StickyHeadTable(props) {
         {
             return (
                 <DefaultLayout>
-                   <Grid container spacing={3} style={{margin:'2%'}}>
-                        <Grid item xs={12} sm={8}>
+                    <div style={{margin:'3%',overflow:"scroll"}}>
                             <Game 
                             gameHistory={JSON.parse(historyDetail[0].data)}  
                             competitorName={historyDetail[0].competitorName}
@@ -33,13 +32,9 @@ export default function StickyHeadTable(props) {
                             winnerType={historyDetail[0].winnerType}
                             loserType={historyDetail[0].loserType}
                             finalResult = {historyDetail[0].type == "draw" ? "Draw" : (historyDetail[0].winner == historyDetail[0].competitorId ? "Lose" : "Win")}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <Chat
-                            chatHistory={JSON.parse(historyDetail[0].chat)}/>
-                        </Grid>
-                    </Grid>
+                            chatHistory={JSON.parse(historyDetail[0].chat)}
+                            />   
+                    </div>
                 </DefaultLayout>
             )
         }

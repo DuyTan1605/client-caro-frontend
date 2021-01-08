@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default function StickyHeadTable(props) {
   
-  //console.log(props);
+  console.log(props);
   const { actions } = props;
   const { isFetching } = props;
   const { historyInfo } = props;
@@ -31,7 +31,7 @@ export default function StickyHeadTable(props) {
     return (
         <DefaultLayout>
             <center>
-            <CircularProgress />
+                <CircularProgress />
             </center>
         </DefaultLayout>
     );

@@ -1,9 +1,10 @@
 import React, { useState } from "react"
 import "../game/game.css"
-import { Card,Button } from 'react-bootstrap';
+import { Card,Button,Container } from 'react-bootstrap';
 import Board from "./board"
 import RenderStep from "./renderStep"
 import { render } from "@testing-library/react";
+import Chat from "./chat"
 export default function Game(props)
 {
     console.log(props);
@@ -15,7 +16,7 @@ export default function Game(props)
    
     return (
         <div className='board-game'>
-            <div>
+            <div className="flex-item-player">
                     {/* Our infomation */}
                     <Card className='card'>
                         <Card.Body className='card-body'>
@@ -39,23 +40,30 @@ export default function Game(props)
                     </Card>
             </div>
            
-            <div style={{textAlign:'center'}}>
+            <div className="flex-item-game">
                 <h3>Result game: You {props.finalResult}</h3>
                 <Board  
                 winCells={winCells}
                 squares={current.squares}
                 currentCell={[current.x, current.y]}
-               /> 
+                /> 
             </div>
-            
-            <RenderStep changeStep={(step,winCells)=>{
-                setNowStep(step);
-                setCurrent(props.gameHistory[step])
-                setWinCells(winCells)
-                }} 
+            <div className="flex-item-step">
+                <RenderStep changeStep={(step,winCells)=>{
+                    setNowStep(step);
+                    setCurrent(props.gameHistory[step])
+                    setWinCells(winCells)
+                    }} 
 
-                nowStep={nowStep} 
-                gameHistory={props.gameHistory}/>
+                    nowStep={nowStep} 
+                    gameHistory={props.gameHistory}/>
+
+                <Chat chatHistory={props.chatHistory}/>
+            </div>
+
+            {/* <div className="flex-item-chat">
+                <Chat chatHistory={props.chatHistory}/>
+            </div> */}
         </div>
     )
 }

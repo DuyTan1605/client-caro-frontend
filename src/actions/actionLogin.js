@@ -35,11 +35,10 @@ export default function fetchLogin(username, password) {
             }
         )
         .then(json => {
+           
             if (json.token) {
-
-                // Redirect immediately, no need to dispatch SUCCESS action4
                 console.log(json)
-              
+                // Redirect immediately, no need to dispatch SUCCESS action4
                 localStorage.setItem('token', json.token);
                 localStorage.setItem('user',JSON.stringify(json.user));
                 window.location.href = '/home';

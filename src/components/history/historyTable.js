@@ -12,17 +12,23 @@ import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom'
 import {useHistory} from "react-router-dom"
 const columns = [
-    { id: 'code', label: 'ID Game', minWidth: 100 },
-  { id: 'name', label: "Game's Name", minWidth: 170 },
+  { id: 'code', label: 'ID Room', minWidth: 100 },
+  { id: 'name', label: "Room's Name", minWidth: 170 },
   {
     id: 'competitor',
-    label: "Competitor 'name",
+    label: "Competitor",
     minWidth: 170,
     align: 'center'
   },
   {
     id: 'result',
     label: 'Result',
+    minWidth: 170,
+    align: 'center'
+  },
+  {
+    id: 'date',
+    label: 'Date',
     minWidth: 170,
     align: 'center'
   },
@@ -34,14 +40,9 @@ const columns = [
   },
 ];
 
-function createData(code,name, competitor, result,detail) {
-  return { code,name, competitor, result,detail };
+function createData(code,name, competitor, result,date,detail) {
+  return { code,name, competitor, result,date,detail };
 }
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263,'/historyDetail/1'),
-  createData('China', 'CN', 1403500365, 9596961,'/historyDetail/2'),
-];
 
 const useStyles = makeStyles({
   root: {
@@ -61,6 +62,7 @@ export default function StickyHeadTable(props) {
         history.name?history.name:"RandomGame"+history.id,
         history.competitorName,
         history.type == "draw" ? "Draw" : (history.winner == history.competitorId ? "Lose" : "Win"),
+        history.date,
         "/historyDetail/"+history.id
         );
     }))

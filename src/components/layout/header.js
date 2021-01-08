@@ -252,13 +252,17 @@ export default function PrimarySearchAppBar(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Ranking'].map((text, index) => (
-          <Link key={index} to ="/ranking">
-          <ListItem button >
-            <ListItemText primary={text} />
-          </ListItem>
+         <Link to ="/home">
+            <ListItem button >
+              <ListItemText primary="Home" />
+            </ListItem>
           </Link>
-        ))}
+
+          <Link to ="/ranking">
+            <ListItem button >
+              <ListItemText primary="Ranking" />
+            </ListItem>
+          </Link>
       </List>
     </div>
   );

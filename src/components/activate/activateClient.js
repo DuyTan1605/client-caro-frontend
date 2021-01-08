@@ -6,7 +6,7 @@ export default function Activate(props)
     return (    
         <div style={{margin:'5%'}}>
             <center>
-                <h1>GO TO YOUR EMAIL TO ACTIVE ACCOUNT....</h1>
+                <h1>GO TO YOUR EMAIL TO ACTIVATE YOUR ACCOUNT....</h1>
             </center>
         </div>
         )

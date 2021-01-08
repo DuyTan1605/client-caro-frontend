@@ -15,4 +15,4 @@ var exports_final = {
     'server-domain': 'https://caro-online-api-client.herokuapp.com/'
 };
 
-export default exports_final;
+export default exports_1;

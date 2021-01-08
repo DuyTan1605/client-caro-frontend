@@ -18,7 +18,7 @@ export default function Chat(props)
     
 
     return (
-        <>
+        <div style={{marginTop:'2%'}}>
         <Card className='card-chat'>
             <Card.Body className='card-body'>
                 <Card.Title className='card-title'>Chat History</Card.Title>
@@ -27,6 +27,6 @@ export default function Chat(props)
                 </div>
             </Card.Body>
         </Card>
-        </>
+        </div>
     )
 }

@@ -38,13 +38,11 @@ export default function renderStep(props)
     });
 
     return (
-        <div style={{marginLeft:'2%'}}>
         <ScrollToBottom className='scroll-view' mode='top'>
             <ol>
-            {moves}
+                {moves}
             </ol>
         </ScrollToBottom>
-    </div>
     )
 
     function checkWin(row, col, user, stepNumber) {

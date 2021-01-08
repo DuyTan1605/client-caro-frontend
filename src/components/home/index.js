@@ -31,9 +31,20 @@ export default function Home(props)
         if(userInfo)
         {
            // console.log(userInfo);
-           localStorage.setItem("user",JSON.stringify(userInfo)); 
-
+           localStorage.setItem("user",JSON.stringify(userInfo));
            socket.emit("login",userInfo);
+
+            if(userInfo.status == 0)
+            {
+                return (
+                    <div style={{margin:'5%'}}>
+                        <center>
+                            <h1>YOUR ACCOUNT HAS BEEN BLOCK BY ADMIN....</h1>
+                        </center>
+                    </div>
+                )
+            }
+
             if(userInfo.account_type ==1 && userInfo.activate == 0 )
             {
                 return (<Activate/>)
@@ -42,12 +53,12 @@ export default function Home(props)
            return (
             <DefaultLayout refresh={refresh}>
                  <Grid container spacing={3} style={{marginTop:'2%'}}>
-                    <Grid item xs={12} md={10} sm={10}>
+                    <Grid item xs={12} md={10} sm={12}>
                         <Provider store={store}>
                              <ListBoard/>
                         </Provider>
                     </Grid>
-                    <Grid item xs={12} md={2} sm={2} style={{float:'right'}}>
+                    <Grid item xs={12} md={2} sm={12} style={{float:'right',textAlign:'center'}}>
                         <h4>Users online</h4>
                         <ListOnline/>
                     </Grid>
