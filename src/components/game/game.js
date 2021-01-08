@@ -191,13 +191,14 @@ function Game(props) {
                     <div className="flex-item-game">
                     <div 
                 style={{display:(userInfo.id != roomInfo.playerX.id && userInfo.id != roomInfo.playerO.id ? "none" : "inline-block")}}>
-                    {roomInfo.playerX.id == userInfo.id && nextMove == "X" && !needToDisable &&
-                    <CountDown countDown = {props.countDown} time = {roomInfo.time} endGame = {endGame} needToDisable={needToDisable}/>}
                     <Status nextMove={nextMove}
                         winCells={winCells}
                         rivalname={roomInfo.playerO.name}
                         messages={message}
                         isPlayerX={isPlayerX}/>
+                        <br/>
+                     {roomInfo.playerX.id == userInfo.id && nextMove == "X" && !needToDisable &&
+                    <CountDown countDown = {props.countDown} time = {roomInfo.time} endGame = {endGame} needToDisable={needToDisable}/>}
                     {roomInfo.playerO.id == userInfo.id &&  nextMove=="O" && !needToDisable &&
                     <CountDown countDown = {props.countDown} time = {roomInfo.time} endGame = {endGame} needToDisable={needToDisable}/>}
                 </div>

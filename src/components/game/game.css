@@ -57,7 +57,7 @@
   .status {
     color:black;
     font: 20px 'Courier New', Courier, monospace;
-    margin: 2%;
+    margin-bottom: 2%;
   }
   
   .square {
