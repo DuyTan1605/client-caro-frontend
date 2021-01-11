@@ -47,6 +47,8 @@ class ActionType extends Component {
     static GET_HISTORY = "GET_HISTORY";
 
     static GET_HISTORY_DETAIL = "GET_HISTORY_DETAIL";
+
+    static SET_CHAT = "SET_CHAT";
 }
 
 export default ActionType;

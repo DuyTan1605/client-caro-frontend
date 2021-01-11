@@ -26,6 +26,8 @@ function Game(props) {
     socket.on('joinroom-success', function (roomInfo) {
        //console.log(roomInfo); 
        actions.actionJoinRoom(roomInfo);
+       actions.actionClick(roomInfo.history,roomInfo.nextMove,roomInfo.winCells);
+       actions.actionSetChat(roomInfo.chat);
     })
 
     
@@ -423,7 +425,7 @@ function Game(props) {
         const { nextMove } = props;
         const { winCells } = props;
         actions.actionSetCountDown(true);
-        actions.actionJoinRoom(roomInfo);
+        //actions.actionJoinRoom(roomInfo);
         // It should be named 'curMove'
         const curMove = nextMove;
         const newHistory = history.slice(0, stepNumber + 1);
@@ -459,6 +461,7 @@ function Game(props) {
             }
             // Call action
             actions.actionClick(_history, _nextMove, _winCells);
+            socket.emit('addDataToRoom',{history:_history,nextMove:_nextMove,winCells:_winCells});
             return true;
         }
         return false;

@@ -15,6 +15,11 @@ export default function handleRoom(state = Config.initialState, action) {
                 chatHistory: [...state.chatHistory, action.message]
             };
         
+        case ActionType.SET_CHAT:
+            return {
+                ...state,
+                chatHistory: action.message
+            };
         case ActionType.REFRESH:
             return Config.initialState;
         

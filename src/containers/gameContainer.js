@@ -13,6 +13,7 @@ import Game from '../components/game/game';
 import actionAddWinner from "../actions/actionAddWinner"
 import actionSetCountDown from  "../actions/actionSetCountDown"
 import actionEndGame from "../actions/actionEndGame"
+import actionSetChat from "../actions/actionSetChat"
 // Connect variables
 function mapStateToProps(state) {
     //console.log(state);
@@ -48,7 +49,8 @@ function mapDispatchToProps(dispatch) {
             actionAddHistory,
             actionAddWinner,
             actionSetCountDown,
-            actionEndGame
+            actionEndGame,
+            actionSetChat
         }, dispatch)
     };
 }
