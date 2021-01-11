@@ -32,6 +32,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ListItemText from '@material-ui/core/ListItemText';
 import DesktopMenu from "./menu"
 import HistoryIcon from '@material-ui/icons/History';
+import HomeIcon from '@material-ui/icons/Home';
+import ListIcon from '@material-ui/icons/List';
 //import {socket} from "../../helpers/socket"
 
 
@@ -222,7 +224,7 @@ export default function PrimarySearchAppBar(props) {
     >
        <Link to={"/profile"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><AccountCircleIcon/> Your Profile</MenuItem></Link>
        <Link to={"/history"} style={{color:"black",textDecoration:"none"}}><MenuItem onClick={handleMenuClose}><HistoryIcon/> History</MenuItem></Link>
-      <Button style={{color:"black",textDecoration:"none",textTransform:"none"}} onClick={logOut}><MenuItem onClick={handleMenuClose}><ExitToAppIcon/> Logout</MenuItem></Button>
+      <Button style={{color:"black",textDecoration:"none",textTransform:"none"}} onClick={logOut}><MenuItem onClick={handleMenuClose}><ExitToAppIcon/>Logout</MenuItem></Button>
     </Menu>
   );
 
@@ -254,13 +256,13 @@ export default function PrimarySearchAppBar(props) {
       <List>
          <Link to ="/home">
             <ListItem button >
-              <ListItemText primary="Home" />
+              <HomeIcon/> <ListItemText primary="Home" />
             </ListItem>
           </Link>
 
           <Link to ="/ranking">
             <ListItem button >
-              <ListItemText primary="Ranking" />
+              <ListIcon/> <ListItemText primary="Ranking" />
             </ListItem>
           </Link>
       </List>

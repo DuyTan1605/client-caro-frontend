@@ -180,7 +180,7 @@ export default function ListBoard(props) {
             </Grid>
           {(<>
               <h1 style={{color:"#283593",margin:'2% 0'}}>My games</h1>
-                  <Grid container spacing={3}>
+                  <Grid container spacing={3} style={{marginLeft:'auto'}}>
                       <Grid item xs={3}>  
                         <Fab color="primary" aria-label="Add" className={classes.fab} onClick={handleClickOpen}>
                             <AddIcon/>
@@ -190,7 +190,7 @@ export default function ListBoard(props) {
                       {
                         myBoard.map((board,index)=>{
                           return (
-                          <Grid item xs={12} md={4} sm={12} key={index}>
+                          <Grid item xs={12} md={4} sm={4} key={index}>
                              {/* <Provider store={store}> */}
                                <Board board={board} history={history}/>
                               {/* </Provider> */}
@@ -202,11 +202,11 @@ export default function ListBoard(props) {
               </>)  
               }  
               <h1 style={{color:"#283593",margin:'2% 0'}}>Other games</h1>
-                  <Grid container spacing={3}>
+                  <Grid container spacing={3} style={{marginLeft:'auto'}}>
                      {
                          otherBoard.map((board,index)=>{
                           return (
-                          <Grid item xs={12} md={4} sm={12} key={index}>
+                          <Grid item xs={12} md={4} sm={4} key={index}>
                              {/* <Provider store={store}> */}
                                 <Board board={board} history={history}/>
                             {/* </Provider> */}

@@ -225,6 +225,14 @@ export default function Infor(props) {
                   <TextField disabled id="rank" label="Rank" defaultValue={info.rank} fullWidth variant="filled" />
                   </Grid>
                 </Grid>
+              </Grid>   
+
+              <Grid item xs={12} sm={12}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField disabled id="joined" label="Joined" defaultValue={info.created_at} fullWidth variant="filled" />
+                  </Grid>
+                </Grid>
               </Grid>              
 
               <Grid item xs={12}>

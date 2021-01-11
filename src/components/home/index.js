@@ -53,12 +53,12 @@ export default function Home(props)
            return (
             <DefaultLayout refresh={refresh}>
                  <Grid container spacing={3} style={{marginTop:'2%'}}>
-                    <Grid item xs={12} md={10} sm={12}>
+                    <Grid item xs={10} md={10} sm={10}>
                         <Provider store={store}>
                              <ListBoard/>
                         </Provider>
                     </Grid>
-                    <Grid item xs={12} md={2} sm={12} style={{float:'right',textAlign:'center'}}>
+                    <Grid item xs={12} md={2} sm={2} style={{padding:'1em'}}>
                         <h4>Users online</h4>
                         <ListOnline/>
                     </Grid>

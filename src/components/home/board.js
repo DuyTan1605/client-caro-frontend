@@ -25,7 +25,7 @@ import Game from '../game/game';
 import { useHistory } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+   width:'100%'
   },
   media: {
     height: 140,
@@ -51,6 +51,7 @@ export default function MediaCard(props) {
   const handleClose = () => {
     setOpen(false);
     setPassword("");
+    setMessage("");
   };
 
   const joinGame = ()=>{
@@ -119,7 +120,7 @@ export default function MediaCard(props) {
           Share
         </Button> */}
          {/* <Link style={{color:"black",textDecoration:"none"}}>    */}
-            <Button size="small" color="primary" onClick={joinGame}>
+            <Button size="small" color="primary" variant="contained" onClick={joinGame}>
             JOIN
             </Button>
 
@@ -143,10 +144,10 @@ export default function MediaCard(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="secondary" variant="contained">
             Cancel
           </Button>
-          <Button onClick={handleJoin} color="primary">
+          <Button color="primary" variant="contained" onClick={handleJoin}>
             JOIN
           </Button>
         </DialogActions>

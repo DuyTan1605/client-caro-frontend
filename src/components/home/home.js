@@ -47,7 +47,7 @@ export default function Home(props) {
           <Grid item xs={12} md={10} sm={10}>
             <ListBoard/>
           </Grid>
-          <Grid item xs={12} md={2} sm={2} style={{float:'right'}}>
+          <Grid item xs={12} md={2} sm={2} style={{float:'right',padding:'1em'}}>
             <h4>Users online</h4>
             {/* <ListOnline listUsers={listUsers}/> */}
           </Grid>
