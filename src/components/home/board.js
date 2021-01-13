@@ -102,7 +102,7 @@ export default function MediaCard(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h6" component="h4">
-           RoomID: {props.board.id}
+           Room: {props.board.id} - {props.board.name}
           </Typography>
           <Typography gutterBottom variant="h6" component="h6">
           Status: {totalUser >=2 ? "Playing" : "Waiting"}

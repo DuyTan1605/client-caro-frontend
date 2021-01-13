@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import ListOnline from "./listOnline"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Activate from "../activate/activateClient"
+import Link from '@material-ui/core/Link';
 const history = createBrowserHistory();
 
 export default function Home(props)
@@ -19,6 +20,12 @@ export default function Home(props)
     const { userInfo } = props;
     const { roomInfo } = props;
 
+    const returnHome = ()=>{
+        socket.emit("logout",{id:JSON.parse(localStorage.getItem("user")).id});
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    }
     console.log(props);
     const refresh = ()=>{
         actions.actionRefresh();
@@ -40,6 +47,10 @@ export default function Home(props)
                     <div style={{margin:'5%'}}>
                         <center>
                             <h1>YOUR ACCOUNT HAS BEEN BLOCK BY ADMIN....</h1>
+                            <br/><br/>
+                            <Link href="#" onClick={returnHome}>
+                                <h6>Login page</h6>
+                            </Link>
                         </center>
                     </div>
                 )

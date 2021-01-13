@@ -17,6 +17,7 @@ import DefaultLayout from "../layout/defaultLayout"
 import CountDown from "./countDown"
 import WaitingRoom from "./waitingRoom"
 import {getDate} from "../../helpers/helper"
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 function Game(props) {
     let historyRouter = useHistory();
@@ -171,7 +172,8 @@ function Game(props) {
                                 <Card.Title className='card-title'>{userInfo.id == roomInfo.playerX.id ? "You": userInfo.id == roomInfo.playerO.id ? "Opponent":"Role"}: X </Card.Title>
                                 <Card.Text className='card-text-bold'><b>{Xname}</b></Card.Text>
                                 <Card.Text className='card-text-bold'><b>{roomInfo.playerX.status}</b></Card.Text>
-                                <img src={avatarSrc} className='avatar-small' alt='avatar'/><br></br>
+                                {avatarSrc ? <img src={avatarSrc} className='avatar-small' alt='avatar'/> : 
+                                <AccountCircle fontSize="large"/>}<br></br>
                                 <Card.Text className='card-text-bold'><b>Rank: {roomInfo.playerX.rank}</b></Card.Text>
                                 <Card.Text className='card-text-bold'><b>Total match: {roomInfo.playerX.total_match}</b></Card.Text>
                             </Card.Body>
@@ -184,7 +186,8 @@ function Game(props) {
                                 <Card.Title className='card-title'>{userInfo.id == roomInfo.playerO.id ? "You":userInfo.id == roomInfo.playerX.id ? "Opponent":"Role"} : O  </Card.Title>
                                 <Card.Text className='card-text-bold'><b>{rivalname}</b></Card.Text>
                                 <Card.Text className='card-text-bold'><b>{roomInfo.playerO.status}</b></Card.Text>
-                                <img src={rivalAvatarSrc} className='avatar-small' alt='rivalAvatar'/><br></br>
+                                {rivalAvatarSrc?<img src={rivalAvatarSrc} className='avatar-small' alt='rivalAvatar'/>:
+                                <AccountCircle fontSize="large"/>}<br></br>
                                 <Card.Text className='card-text-bold'><b>Rank: {roomInfo.playerO.rank}</b></Card.Text>
                                 <Card.Text className='card-text-bold'><b>Total match: {roomInfo.playerO.total_match}</b></Card.Text>
                             </Card.Body>
